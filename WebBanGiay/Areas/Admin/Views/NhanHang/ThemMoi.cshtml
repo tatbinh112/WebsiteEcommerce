@@ -1,0 +1,44 @@
+﻿@model WebBanGiay.Models.Brand
+
+@{
+    ViewBag.Title = "ThemMoi";
+    ViewBag.Active = "NhanHang";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Nhãn Hàng /</span> Thêm mới</h4>
+
+
+
+@* Form thêm mới *@
+<div class="card mb-4">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="mb-0"></h5>
+        <small class="text-muted float-end"></small>
+    </div>
+    <div class="card-body">
+        <form action="~/Admin/NhanHang/ThemMoi" method="post">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="row mb-3">
+                <label class="control-label col-md-2">Tên Nhãn Hàng</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Brand_Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Brand_Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row justify-content-end">
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Thêm</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "DanhSach")
+</div>

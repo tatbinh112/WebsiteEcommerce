@@ -1,0 +1,122 @@
+﻿﻿@model IEnumerable<WebBanGiay.Models.spDanhSachSanPham_Result>
+@using WebBanGiay.Models;
+@{
+    ViewBag.Title = "Danh Sách Sản Phẩm";
+    ViewBag.Active = "SanPham";
+    WebBanGiayEntities db = new WebBanGiayEntities();
+    List<Brand> listbrd = db.Brands.ToList();
+    List<Category> listctgr = db.Categories.ToList();
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Sản phẩm /</span> Danh sách</h4>
+<p class="createNew">
+    @*@Html.ActionLink("Create New", "Create" )*@
+    <a href="~/Admin/SanPham/ThemMoi">
+        <button type="button" class="btn btn-primary">Thêm mới</button>
+    </a>
+    <div class="col-xs-12">
+        <form method="get">
+            <div class="col-xs-2">
+                <input type="text" name="filter" value="@ViewBag.filter" class="form-control" placeholder="Nhập tên sản phẩm" />
+            </div>
+            <div class="col-xs-2">
+                <select name="idCategory" class="form-control">
+                    <option value="">Tất cả</option>
+                    @foreach (var loai in listctgr)
+                    {
+                        <option value="@loai.Category_Id" @Html.Raw(loai.Category_Id == ViewBag.idCategory ? "selected" : "")>@loai.Category_Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-xs-2">
+                <select name="idBrand" class="form-control">
+                    <option value="">Tất cả</option>
+                    @foreach (var loai in listbrd)
+                    {
+                        <option value="@loai.Brand_Id" @Html.Raw(loai.Brand_Id == ViewBag.idBrand ? "selected" : "")>@loai.Brand_Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-xs-2">
+                <button type="submit" class="btn btn-primary">Tìm</button>
+            </div>
+        </form>
+    </div>
+</p>
+<div class="card">
+    <h5 class="card-header"></h5>
+    <div class="table-responsive text-nowrap">
+        <table class="table">
+            <tr>
+                <th>
+                    Tên sản phẩm
+                </th>
+                <th>
+                    Miêu tả
+                </th>
+                <th>
+                    Giá
+                </th>
+                <th>
+                    Hình ảnh
+                </th>
+                <th>
+                    Số lượng
+                </th>
+                <th>
+                    Tên Brand
+                </th>
+                <th>
+                    Danh Mục Sản Phẩm
+                </th>
+                <th>#</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product_Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product_Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product_Price)
+                    </td>
+                    <td>
+                        <img style="width:70px;height:70px" src="~/Areas/Admin/Data/@item.Product_Image" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product_Quantity)
+                    </td>
+                    <td>
+                        @{
+                            var loai2 = db.Brands.Find(item.Brand_Id);
+                            if (item.Category_Id != null)
+                            {
+                                <span>@loai2.Brand_Name</span>
+                            }
+                        }
+                    </td>
+                    <td>
+                        @{
+                            var loai1 = db.Categories.Find(item.Category_Id);
+                            if (item.Category_Id != null)
+                            {
+                                <span>@loai1.Category_Name</span>
+                            }
+                        }
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Product_Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Product_Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Product_Id })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

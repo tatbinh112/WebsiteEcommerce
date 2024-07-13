@@ -1,0 +1,73 @@
+﻿﻿﻿@model IEnumerable<WebBanGiay.Models.SP_XemKhoHangTuSanPham_Result>
+
+@{
+    ViewBag.Title = "Danh Sách Kho Hang";
+    ViewBag.Active = "KhoHang";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+
+
+
+
+}
+
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Sản phẩm /</span><span class="text-muted fw-light">Kho Hàng /</span>@ViewBag.name </h4>
+<p class="createNew">
+    @*@Html.ActionLink("Create New", "Create" )*@
+    @{
+        if (@ViewBag.name == "DanhSach")
+        {
+            <a href="~/Admin/KhoHang/ThemMoi">
+                <button type="button" class="btn btn-primary">Nhập Hàng</button>
+            </a>
+        }
+        else
+        {
+            <a href="~/Admin/KhoHang/ThemMoi/@ViewBag.ID">
+                <button type="button" class="btn btn-primary">Nhập Hàng</button>
+            </a>
+        }
+    }
+
+</p>
+<div class="card">
+    <h5 class="card-header"></h5>
+    <div class="table-responsive text-nowrap">
+        <table class="table">
+            <tr>
+                <th>
+                    Tên sản phẩm
+                </th>
+                <th>
+                    Kích Thước
+                </th>
+                <th>
+                    Số lượng
+                </th>
+
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product_Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Size)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ProWH_Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ProWH_Id })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

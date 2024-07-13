@@ -1,0 +1,316 @@
+﻿﻿@using PagedList.Mvc;
+@using PagedList;
+@using System.Linq;
+
+@model PagedList.IPagedList<WebBanGiay.Models.Product>
+@{
+    ViewBag.Page = "Shop";
+
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var check = false;
+    string currentCantegoryFilter = "";
+    int[] selectedCategories = ViewBag.CantegoryFilter;
+    if (selectedCategories != null)
+    {
+        currentCantegoryFilter = String.Join(",", selectedCategories);
+
+    }
+
+
+
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-xl-3 col-lg-4 col-md-5">
+            <div class="sidebar-categories">
+                <div class="head">Browse Categories</div>
+                <form id="categoryForm" method="get" action="@Url.Action("Index")">
+
+                    <ul class="main-categories">
+                        @{
+                            if (ViewBag.BrandFilter != null && ViewBag.BrandFilter != 0)
+                            {
+                                <input type="hidden" name="BrandFilter" value="@ViewBag.BrandFilter" />
+
+                            }
+                            foreach (var item in new WebBanGiay.Models.WebBanGiayEntities().Categories.ToList())
+                            {
+                                string ckb = "CheckBox" + item.Category_Id;
+
+                                if (selectedCategories != null && selectedCategories.Length > 0)
+                                {
+                                    check = selectedCategories.Contains(item.Category_Id);
+                                }
+                                <li class="main-nav-list">
+
+                                    <input type="checkbox" name="CantegoryFilter" value="@item.Category_Id" id="@ckb" class="checkbox" @Html.Raw(check ? "checked" : "")>
+                                    <label for="@ckb" class="checkbox-label">
+                                        <a data-toggle="collapse" href="#fruitsVegetable" aria-expanded="false" aria-controls="fruitsVegetable" onclick="toggleCheckbox('@ckb')" style="@Html.Raw(check ? "color: #ffba00" : "") ">
+                                            <span class="lnr lnr-arrow-right"></span>@item.Category_Name<span class="number">(53)</span>
+                                        </a>
+                                    </label>
+
+                                </li>
+                            }
+
+                        }
+
+                    </ul>
+                </form>
+
+            </div>
+            <div class="sidebar-filter mt-50">
+                <div class="top-filter-head">Product Filters</div>
+                <div class="common-filter">
+                    <div class="head">Brands</div>
+                    <form method="get" action="@Url.Action("Index")">
+
+                        <ul>
+                            @{
+                                if (selectedCategories != null && selectedCategories.Length > 0)
+                                {
+                                    foreach (var i in selectedCategories)
+                                    {
+
+                                        <input style="display:none;" type="checkbox" name="CantegoryFilter" value="@i" checked />
+                                    }
+
+                                }
+                                foreach (var item in new WebBanGiay.Models.WebBanGiayEntities().Brands.ToList())
+                                {
+
+
+                                    <li class="filter-list">
+                                        <input class="pixel-radio" type="radio" value="@item.Brand_Id" id="@item.Brand_Id" name="BrandFilter" onchange="this.form.submit()" @Html.Raw(item.Brand_Id == ViewBag.BrandFilter ? "Checked" : "")><label for="@item.Brand_Id">@item.Brand_Name<span>(29)</span></label>
+                                    </li>
+                                }
+                            }
+
+                        </ul>
+                    </form>
+                </div>
+
+                <div class="common-filter">
+                    <div class="head">Price</div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-9 col-lg-8 col-md-7">
+            <!-- Start Filter Bar -->
+            <div class="filter-bar d-flex flex-wrap align-items-center">
+                <div class="sorting">
+                    <form method="get" action="@Url.Action("Index")">
+                        @{
+                            if (ViewBag.BrandFilter != null && ViewBag.BrandFilter != 0)
+                            {
+                                <input type="hidden" name="BrandFilter" value="@ViewBag.BrandFilter" />
+
+                            }
+                            if (selectedCategories != null && selectedCategories.Length > 0)
+                            {
+                                foreach (var i in selectedCategories)
+                                {
+
+                                    <input style="display:none;" type="checkbox" name="CantegoryFilter" value="@i" checked />
+                                }
+
+                            }
+
+                        }
+                        <select name="sortOrder" onchange="this.form.submit()">
+                            <option value="name" @(ViewBag.CurrentSort == "name" ? "selected" : "")>Tên: A-Z</option>
+                            <option value="name_desc" @(ViewBag.CurrentSort == "name_desc" ? "selected" : "")>Tên: Z-A</option>
+                            <option value="price" @(ViewBag.CurrentSort == "price" ? "selected" : "")>Giá: Tăng dần</option>
+                            <option value="price_desc" @(ViewBag.CurrentSort == "price_desc" ? "selected" : "")>Giá: Giảm dần</option>
+                        </select>
+                    </form>
+                </div>
+
+                @*<div class="sorting">
+                        <select>
+                            <option value="0">Giá: Tăng dần</option>
+                            <option value="1">Giá: Giản dần</option>
+                            <option value="2" selected>Tên: A-Z</option>
+                            <option value="3"  >Tên: Z-A</option>
+
+                        </select>
+                    </div>*@
+                <div class="sorting mr-auto"></div>
+                @*<div class="pagination">
+                        <a href="#" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
+                        <a href="#" class="active">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#" class="dot-dot"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
+                        <a href="#">6</a>
+                        <a href="#" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                    </div>*@
+
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, CurrentCantegoryFilter = currentCantegoryFilter, BrandFilter = ViewBag.BrandFilter, sortOrder = ViewBag.CurrentSort }));
+
+            </div>
+            <!-- End Filter Bar -->
+            <!-- Start Best Seller -->
+            <section class="lattest-product-area pb-40 category-list">
+                <div class="row">
+                    @{
+                        if (Model != null && Model.Any())
+                        {
+                            var i = 1;
+                            foreach (var item in Model)
+                            {
+                                <!-- single product -->
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="single-product">
+                                        <div class="square-img-container">
+                                            <img class="square-img" src="~/Areas/Admin/Data/@item.Product_Image" alt="">
+                                        </div>
+                                        <div class="product-details">
+                                            <h6 class="Product_Name">
+                                                @item.Product_Name
+                                            </h6>
+                                            <div class="price">
+                                                <h6>
+                                                    @{int price = Convert.ToInt32(item.Product_Price);
+
+                                                        // Định dạng giá tiền với dấu chấm phân cách hàng nghìn
+                                                        string formattedPrice = price.ToString("N0", new System.Globalization.CultureInfo("vi-VN"));
+                                                        <span>@formattedPrice₫</span>
+                                                    }
+
+                                                </h6>
+                                                <h6 class="l-through">
+                                                    @{int price2 = Convert.ToInt32(item.Product_Price);
+
+                                                        // Định dạng giá tiền với dấu chấm phân cách hàng nghìn
+                                                        string formattedPrice2 = price2.ToString("N0", new System.Globalization.CultureInfo("vi-VN"));
+                                                        <span>@formattedPrice2₫</span>
+                                                    }
+                                                </h6>
+                                            </div>
+                                            <div class="prd-bottom">
+
+                                                <a href="" class="social-info">
+                                                    <span class="ti-bag"></span>
+                                                    <p class="hover-text">add to bag</p>
+                                                </a>
+                                                <a href="" class="social-info">
+                                                    <span class="lnr lnr-heart"></span>
+                                                    <p class="hover-text">Wishlist</p>
+                                                </a>
+                                                <a href="@Url.Action("ChiTiet", "Shop", new { id = item.Product_Id })" class="social-info">
+                                                    <span class="lnr lnr-move"></span>
+                                                    <p class="hover-text">view more</p>
+                                                </a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                i++;
+                            }
+                        }
+
+                    }
+
+
+                </div>
+            </section>
+            <!-- End Best Seller -->
+            <!-- Start Filter Bar -->
+            <div class="filter-bar d-flex flex-wrap align-items-center">
+                <div class="sorting">
+                    <form method="get" action="@Url.Action("Index")">
+                        @{
+                            if (ViewBag.BrandFilter != null && ViewBag.BrandFilter != 0)
+                            {
+                                <input type="hidden" name="BrandFilter" value="@ViewBag.BrandFilter" />
+
+                            }
+                        }
+                        <select name="sortOrder" onchange="this.form.submit()">
+                            <option value="name" @(ViewBag.CurrentSort == "name" ? "selected" : "")>Tên: A-Z</option>
+                            <option value="name_desc" @(ViewBag.CurrentSort == "name_desc" ? "selected" : "")>Tên: Z-A</option>
+                            <option value="price" @(ViewBag.CurrentSort == "price" ? "selected" : "")>Giá: Tăng dần</option>
+                            <option value="price_desc" @(ViewBag.CurrentSort == "price_desc" ? "selected" : "")>Giá: Giảm dần</option>
+                        </select>
+                    </form>
+                </div>
+                <div class="sorting mr-auto">
+                    @*<select>
+                            <option value="1">Show 12</option>
+                            <option value="1">Show 12</option>
+                            <option value="1">Show 12</option>
+                        </select>*@
+                </div>
+                @*<div class="pagination">
+                        <a href="#" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
+                        <a href="#" class="active">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#" class="dot-dot"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
+                        <a href="#">6</a>
+                        <a href="#" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                    </div>*@
+                <!-- Page list -->
+
+
+            </div>
+            <!-- End Filter Bar -->
+        </div>
+    </div>
+</div>
+
+<!-- Start related-product Area -->
+@Html.Partial("DealOfTheWeek", Model)
+<!-- End related-product Area -->
+@section Script{
+    <script>
+
+        let selectedCategories = [];
+
+        function toggleCheckbox(checkboxId) {
+            var checkbox = document.getElementById(checkboxId);
+            checkbox.checked = !checkbox.checked;
+            document.getElementById('categoryForm').submit();
+        }
+
+        function updateHiddenInput(checkbox) {
+            const hiddenInput = document.getElementById('selectedCategories');
+
+            if (checkbox.checked) {
+                // Thêm giá trị vào mảng
+                selectedCategories.push(checkbox.value);
+            } else {
+                // Loại bỏ giá trị khỏi mảng
+                const index = selectedCategories.indexOf(checkbox.value);
+                if (index > -1) {
+                    selectedCategories.splice(index, 1);
+                }
+            }
+
+            // Gán giá trị vào input hidden
+            hiddenInput.value = selectedCategories.join(',');
+            checkbox.form.submit();
+        }
+        function initializeSelectedCategories() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    selectedCategories.push(checkbox.value);
+                }
+            });
+
+            const hiddenInput = document.getElementById('selectedCategories');
+            hiddenInput.value = selectedCategories.join(',');
+        }
+
+        // Gọi hàm initializeSelectedCategories khi trang được tải
+        window.onload = initializeSelectedCategories;
+        console.log(selectedCategories)
+    </script>
+}

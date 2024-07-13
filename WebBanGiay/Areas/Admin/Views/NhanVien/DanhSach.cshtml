@@ -1,0 +1,72 @@
+﻿﻿@model IEnumerable<WebBanGiay.Models.User>
+
+@{
+    ViewBag.Title = "DanhSach";
+    ViewBag.Active = "NhanVien";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Nhân Viên /</span> Danh sách</h4>
+<p class="createNew">
+    @*@Html.ActionLink("Create New", "Create" )*@
+    <a href="~/Admin/NhanVien/Create">
+        <button type="button" class="btn btn-primary">Thêm mới</button>
+    </a>
+</p>
+<div class="card">
+    <h5 class="card-header"></h5>
+    <div class="table-responsive text-nowrap">
+        <table class="table">
+            <tr>
+                <th>
+                    Tên Nhân Viên
+                </th>
+                <th>
+                    Tài Khoản
+                </th>
+                <th>
+                    Password
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Số Điện Thoại
+                </th>
+                <th></th>
+
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                if (Convert.ToInt32(item.Type) == 1)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.User_Name)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Pass_Word)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Phone_Number)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.User_Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.User_Id })
+                        </td>
+                    </tr>
+                }
+
+            }
+
+        </table>
+    </div>
+</div>

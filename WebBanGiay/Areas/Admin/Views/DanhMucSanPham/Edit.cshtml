@@ -1,0 +1,44 @@
+﻿@model WebBanGiay.Models.Category
+
+@{
+    ViewBag.Title = "Edit";
+    ViewBag.Active = "DanhMuc";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Danh mục sản phẩm /</span> Cập nhật</h4>
+
+
+@* Form thêm mới *@
+<div class="card mb-4">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="mb-0"></h5>
+        <small class="text-muted float-end"></small>
+    </div>
+    <div class="card-body">
+        <form action="~/Admin/DanhMucSanPham/Edit" method="post">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Category_Id)
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" for="basic-default-name">Name</label>
+                <div class="col-sm-10">
+                    @Html.EditorFor(model => model.Category_Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Category_Name, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+
+            <div class="row justify-content-end">
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">lưu thay đổi</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "DanhSach")
+</div>

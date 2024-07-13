@@ -1,0 +1,64 @@
+﻿﻿﻿@model IEnumerable<WebBanGiay.Models.Category>
+
+@{
+    ViewBag.Title = "DanhSach";
+    ViewBag.Active = "DanhMuc";
+
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Danh mục sản phẩm /</span> Danh sách</h4>
+<p class="createNew">
+    @*@Html.ActionLink("Create New", "Create" )*@
+    <a href="~/Admin/DanhMucSanPham/Create">
+        <button type="button" class="btn btn-primary">Thêm mới</button>
+    </a>
+</p>
+<div class="card">
+    <h5 class="card-header"></h5>
+    <div class="table-responsive text-nowrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Tên danh mục
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <strong> @Html.DisplayFor(modelItem => item.Category_Name)</strong>
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Category_Id }) |
+                            @*@Html.ActionLink("Delete", "Delete", new { id = item.Category_Id })*@
+                            <a onclick="confirmDelete(@item.Category_Id)" href="#">Xóa</a>
+
+
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@section Script{
+    <script type="text/javascript">
+        function confirmDelete(id) {
+
+            if (confirm("Bạn có muốn xóa không?") == true) {
+                location.href = "/Admin/DanhMucSanPham/Delete?ID=" + id
+            }
+        }
+    </script>
+}

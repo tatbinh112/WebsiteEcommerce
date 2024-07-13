@@ -1,0 +1,63 @@
+﻿﻿@model IEnumerable<WebBanGiay.Models.User>
+
+@{
+    ViewBag.Title = "DanhSach";
+    ViewBag.Active = "KhachHang";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Khách Hàng /</span> Danh sách</h4>
+
+<div class="card">
+    <h5 class="card-header"></h5>
+    <div class="table-responsive text-nowrap">
+        <table class="table">
+            <tr>
+                <th>
+                    Tên Khách Hàng
+                </th>
+                <th>
+                    Tài Khoản
+                </th>
+                <th>
+                    Số Tiền Đã Tiêu
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Số Điện Thoại
+                </th>
+
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                if (Convert.ToInt32(item.Type) == 2)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.User_Name)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Amount_Spent)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Phone_Number)
+                        </td>
+                    </tr>
+                }
+
+            }
+
+        </table>
+    </div>
+</div>
+
