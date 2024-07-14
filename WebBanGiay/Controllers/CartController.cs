@@ -31,32 +31,39 @@ namespace WebBanGiay.Controllers
         [HttpPost]
         public ActionResult AddToCart(Cart model)
         {
-            
             var Customer = Session["Customer"] as User;
-            // chưa đăng nhập
-            if (model.User_Id != 0) 
+            // Trường hợp người dùng đã đăng nhập
+            if (Customer != null)
             {
-                db.Carts.Add(model);
+                var existingCartItem = db.Carts.FirstOrDefault(c => c.User_Id == Customer.User_Id && c.Product_Id == model.Product_Id && c.Size == model.Size);
+                if (existingCartItem != null)
+                {
+                    existingCartItem.Quantity += model.Quantity;
+                }
+                else
+                {
+                    model.User_Id = Customer.User_Id;
+                    db.Carts.Add(model);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            else 
+            // Trường hợp người dùng chưa đăng nhập
+            else
             {
                 var Carts = new List<Cart>();
                 if (Session["Cart"] == null)
                 {
                     Carts.Add(model);
                     Session["Cart"] = Carts;
-                    return RedirectToAction("Index");
-
                 }
                 else
                 {
                     Carts = Session["Cart"] as List<Cart>;
 
-                    //kiểm tra sản phẩm có tồn tại không
+                    // Kiểm tra sản phẩm có tồn tại không
                     var cartItem = Carts.FirstOrDefault(c => c.Product_Id == model.Product_Id && c.Size == model.Size);
-                    if (cartItem !=null) 
+                    if (cartItem != null)
                     {
                         cartItem.Quantity += model.Quantity;
                     }
@@ -65,15 +72,13 @@ namespace WebBanGiay.Controllers
                         Carts.Add(model);
                     }
                     Session["Cart"] = Carts;
-
-                    return RedirectToAction("Index");
-
                 }
-
+                return RedirectToAction("Index");
             }
         }
 
-        
+
+
 
 
     }

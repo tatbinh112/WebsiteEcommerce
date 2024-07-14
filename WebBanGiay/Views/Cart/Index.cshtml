@@ -4,6 +4,7 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Tong = 0;
 }
 
 <!--================Cart Area =================-->
@@ -52,24 +53,38 @@
                                     </td>
 
                                     <td>
-                                        <h5>@product.Product_Price</h5>
+                                        <h5>
+                                            @{
+                                                int price = Convert.ToInt32(product.Product_Price);
+                                                string formattedPrice = price.ToString("N0", new System.Globalization.CultureInfo("vi-VN"));
+                                                <span>@formattedPrice₫</span>
+
+                                            }
+                                        </h5>
                                     </td>
                                     <td>
                                         <div class="product_count">
-                                            <input type="text" name="qty" id="sst" maxlength="12" value="@item.Quantity" title="Quantity:"
+                                            <input type="text" name="qty" id="sst-@item.Product_Id" maxlength="12" value="@item.Quantity" title="Quantity:"
                                                    class="input-text qty">
-                                            <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                                    class="increase items-count" type="button">
+                                            <button onclick="increaseQuantity('@item.Product_Id')" class="increase items-count" type="button">
                                                 <i class="lnr lnr-chevron-up"></i>
                                             </button>
-                                            <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                                                    class="reduced items-count" type="button">
+                                            <button onclick="decreaseQuantity('@item.Product_Id')" class="reduced items-count" type="button">
                                                 <i class="lnr lnr-chevron-down"></i>
                                             </button>
                                         </div>
+
                                     </td>
                                     <td>
-                                        <h5>$720.00</h5>
+                                        <h5>
+                                            @{
+                                                int price1 = Convert.ToInt32(product.Product_Price * item.Quantity);
+                                                string formattedPrice1 = price1.ToString("N0", new System.Globalization.CultureInfo("vi-VN"));
+                                                <span>@formattedPrice1₫</span>
+                                                ViewBag.Tong = ViewBag.Tong + price1;
+                                            }
+                                        </h5>
+
                                     </td>
                                 </tr>
 
@@ -100,7 +115,14 @@
                                 <h5>Subtotal</h5>
                             </td>
                             <td>
-                                <h5>$2160.00</h5>
+                                <h5>
+                                    @{
+                                        int price2 = Convert.ToInt32(ViewBag.Tong);
+                                        string formattedPrice2 = price2.ToString("N0", new System.Globalization.CultureInfo("vi-VN"));
+                                        <span>@formattedPrice2₫</span>
+                                    }
+
+                                </h5>
                             </td>
                         </tr>
                         <tr class="shipping_area">
@@ -120,17 +142,20 @@
                                         <li class="active"><a href="#">Local Delivery: $2.00</a></li>
                                     </ul>
                                     <h6>Calculate Shipping <i class="fa fa-caret-down" aria-hidden="true"></i></h6>
-                                    <select class="shipping_select" style="display: none;">
-                                        <option value="1">Bangladesh</option>
-                                        <option value="2">India</option>
-                                        <option value="4">Pakistan</option>
-                                    </select><div class="nice-select shipping_select" tabindex="0"><span class="current">Bangladesh</span><ul class="list"><li data-value="1" class="option selected">Bangladesh</li><li data-value="2" class="option">India</li><li data-value="4" class="option">Pakistan</li></ul></div>
-                                    <select class="shipping_select" style="display: none;">
-                                        <option value="1">Select a State</option>
-                                        <option value="2">Select a State</option>
-                                        <option value="4">Select a State</option>
-                                    </select><div class="nice-select shipping_select" tabindex="0"><span class="current">Select a State</span><ul class="list"><li data-value="1" class="option selected">Select a State</li><li data-value="2" class="option">Select a State</li><li data-value="4" class="option">Select a State</li></ul></div>
-                                    <input type="text" placeholder="Postcode/Zipcode">
+                                    <div>
+                                        <select class="form-select form-select-sm mb-3" id="city" aria-label=".form-select-sm">
+                                            <option value="" selected>Chọn tỉnh thành</option>
+                                        </select>
+
+                                        <select class="form-select form-select-sm mb-3" id="district" aria-label=".form-select-sm">
+                                            <option value="" selected>Chọn quận huyện</option>
+                                        </select>
+
+                                        <select class="form-select form-select-sm" id="ward" aria-label=".form-select-sm">
+                                            <option value="" selected>Chọn phường xã</option>
+                                        </select>
+                                    </div>
+
                                     <a class="gray_btn" href="#">Update Details</a>
                                 </div>
                             </td>
@@ -150,10 +175,28 @@
                             </td>
                         </tr>
 
+
                     </tbody>
+
                 </table>
             </div>
         </div>
     </div>
+    <script>
+        function increaseQuantity(productId) {
+            var result = document.getElementById('sst-' + productId);
+            var sst = result.value;
+            if (!isNaN(sst)) result.value++;
+            return false;
+        }
+
+        function decreaseQuantity(productId) {
+            var result = document.getElementById('sst-' + productId);
+            var sst = result.value;
+            if (!isNaN(sst) && sst > 0) result.value--;
+            return false;
+        }
+    </script>
+
 </section>
 <!--================End Cart Area =================-->

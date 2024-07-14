@@ -185,10 +185,13 @@
     <Compile Include="Models\spDanhSachSanPham_Result.cs">
       <DependentUpon>ShopGiay.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SP_XemKhoHangTuSanPham_Result.cs">
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
       <DependentUpon>ShopGiay.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagram.cs">
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
+      <DependentUpon>ShopGiay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_XemKhoHangTuSanPham_Result.cs">
       <DependentUpon>ShopGiay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">
@@ -1086,6 +1089,8 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\AdminAccount\Login.cshtml" />
     <Content Include="Areas\Admin\Views\AdminError\KhongCoQuyen.cshtml" />
+    <Content Include="img\.DS_Store" />
+    <Content Include="img\organic-food\.DS_Store" />
     <EntityDeploy Include="Models\ShopGiay.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ShopGiay.Designer.cs</LastGenOutput>
@@ -1093,8 +1098,6 @@
     <Content Include="Models\ShopGiay.edmx.diagram">
       <DependentUpon>ShopGiay.edmx</DependentUpon>
     </Content>
-    <Content Include="img\.DS_Store" />
-    <Content Include="img\organic-food\.DS_Store" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
