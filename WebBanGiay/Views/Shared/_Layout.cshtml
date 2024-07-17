@@ -45,7 +45,7 @@
             <nav class="navbar navbar-expand-lg navbar-light main_box">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
-                    <a class="navbar-brand logo_h" href="/Home/Index"><img style="width: 230px; height: 50px"  src="~/Content/assets/img/logo-no-background.png" alt=""></a>
+                    <a class="navbar-brand logo_h" href="/Home/Index"><img style="width: 230px; height: 50px" src="~/Content/assets/img/logo-no-background.png" alt=""></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="icon-bar"></span>
@@ -171,7 +171,7 @@
                 </div>
             </section>
         }
-        else
+        else if (ViewBag.page == "Shop")
         {
             <section class="banner-area organic-breadcrumb">
                 <div class="container">
@@ -188,6 +188,38 @@
                 </div>
             </section>
         }
+        else if (ViewBag.page == "Login")
+        {
+            <section class="banner-area organic-breadcrumb">
+                <div class="container">
+                    <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                        <div class="col-first">
+                            <h1>Login/Register</h1>
+                            <nav class="d-flex align-items-center">
+                                <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+                                <a href="category.html">Login/Register</a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        }
+        else if (ViewBag.page == "Contact")
+        {
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Contact Us</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="category.html">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+        }
     }
     <!-- End banner Area -->
     <!-- start features Area -->
@@ -200,8 +232,8 @@
                     <div class="single-footer-widget">
                         <h6>About Us</h6>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore dolore
-                            magna aliqua.
+                            Hai bạn trẻ đi thực tập tốt nghiệp 
+                            nên tiện tay làm ra trang web này
                         </p>
                     </div>
                 </div>
@@ -254,10 +286,10 @@
                         <h6>Follow Us</h6>
                         <p>Let us be social</p>
                         <div class="footer-social d-flex align-items-center">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-dribbble"></i></a>
-                            <a href="#"><i class="fa fa-behance"></i></a>
+                            <a href="https://www.facebook.com/profile.php?id=100012790237944"><i class="fa fa-facebook"></i></a>
+                            <a href="https://x.com/cristiano"><i class="fa fa-twitter"></i></a>
+                            <a href="https://www.instagram.com/vud_tb"><i class="fa fa-instagram"></i></a>
+                            <a href="https://www.youtube.com/watch?v=xvFZjo5PgG0"><i class="fa fa-youtube"></i></a>
                         </div>
                     </div>
                 </div>
@@ -266,7 +298,7 @@
                 <p class="footer-text m-0">
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     Copyright &copy;
-                    <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                    <script>document.write(new Date().getFullYear());</script> All rights reserved | This website is made by TatBinh and HoangDuc <i class="fa fa-heart-o" aria-hidden="true"></i> 
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 </p>
             </div>

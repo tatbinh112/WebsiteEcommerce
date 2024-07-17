@@ -523,6 +523,7 @@
     <Content Include="Content\assets\img\l6.jpg" />
     <Content Include="Content\assets\img\l7.jpg" />
     <Content Include="Content\assets\img\l8.jpg" />
+    <Content Include="Content\assets\img\login-img.png" />
     <Content Include="Content\assets\img\login.jpg" />
     <Content Include="Content\assets\img\logo-no-background.png" />
     <Content Include="Content\assets\img\logo.png" />
