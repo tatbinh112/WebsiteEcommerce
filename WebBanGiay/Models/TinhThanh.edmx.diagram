@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="208c648f3a1a49f4a9e5d1e3ee4b3fd4" Name="Diagram1">
+        <EntityTypeShape EntityType="vietnamese_administrative_unitsModel.administrative_regions" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="vietnamese_administrative_unitsModel.administrative_units" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="vietnamese_administrative_unitsModel.district" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="vietnamese_administrative_unitsModel.province" Width="1.5" PointX="6" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="vietnamese_administrative_unitsModel.ward" Width="1.5" PointX="8.25" PointY="4.375" IsExpanded="true" />
+        <AssociationConnector Association="vietnamese_administrative_unitsModel.provinces_administrative_region_id_fkey" ManuallyRouted="false" />
+        <AssociationConnector Association="vietnamese_administrative_unitsModel.districts_administrative_unit_id_fkey" ManuallyRouted="false" />
+        <AssociationConnector Association="vietnamese_administrative_unitsModel.provinces_administrative_unit_id_fkey" ManuallyRouted="false" />
+        <AssociationConnector Association="vietnamese_administrative_unitsModel.wards_administrative_unit_id_fkey" ManuallyRouted="false" />
+        <AssociationConnector Association="vietnamese_administrative_unitsModel.districts_province_code_fkey" ManuallyRouted="false" />
+        <AssociationConnector Association="vietnamese_administrative_unitsModel.wards_district_code_fkey" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

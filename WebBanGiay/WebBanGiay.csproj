@@ -140,12 +140,19 @@
     <Compile Include="Areas\Admin\Controllers\SanPhamController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\CheckOutController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\administrative_regions.cs">
+      <DependentUpon>TinhThanh.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\administrative_units.cs">
+      <DependentUpon>TinhThanh.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Brand.cs">
       <DependentUpon>ShopGiay.tt</DependentUpon>
@@ -159,6 +166,9 @@
     <Compile Include="Models\Discount.cs">
       <DependentUpon>ShopGiay.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\district.cs">
+      <DependentUpon>TinhThanh.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Order.cs">
       <DependentUpon>ShopGiay.tt</DependentUpon>
     </Compile>
@@ -167,6 +177,9 @@
     </Compile>
     <Compile Include="Models\Product.cs">
       <DependentUpon>ShopGiay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\province.cs">
+      <DependentUpon>TinhThanh.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ShopGiay.Context.cs">
       <AutoGen>True</AutoGen>
@@ -186,17 +199,29 @@
     <Compile Include="Models\spDanhSachSanPham_Result.cs">
       <DependentUpon>ShopGiay.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>ShopGiay.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_helpdiagrams_Result.cs">
-      <DependentUpon>ShopGiay.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\SP_XemKhoHangTuSanPham_Result.cs">
       <DependentUpon>ShopGiay.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TinhThanh.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TinhThanh.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TinhThanh.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TinhThanh.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TinhThanh.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TinhThanh.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\User.cs">
       <DependentUpon>ShopGiay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ward.cs">
+      <DependentUpon>TinhThanh.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\WareHouse.cs">
       <DependentUpon>ShopGiay.tt</DependentUpon>
@@ -344,6 +369,7 @@
     <Content Include="Areas\Admin\assets\img\elements\5.jpg" />
     <Content Include="Areas\Admin\assets\img\elements\7.jpg" />
     <Content Include="Areas\Admin\assets\img\favicon\favicon.ico" />
+    <Content Include="Areas\Admin\assets\img\favicon\sneak-favicon-color.png" />
     <Content Include="Areas\Admin\assets\img\icons\brands\asana.png" />
     <Content Include="Areas\Admin\assets\img\icons\brands\behance.png" />
     <Content Include="Areas\Admin\assets\img\icons\brands\dribbble.png" />
@@ -1088,6 +1114,16 @@
       <DependentUpon>ShopGiay.edmx</DependentUpon>
       <LastGenOutput>ShopGiay.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\TinhThanh.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TinhThanh.edmx</DependentUpon>
+      <LastGenOutput>TinhThanh.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\TinhThanh.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TinhThanh.edmx</DependentUpon>
+      <LastGenOutput>TinhThanh.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -1104,6 +1140,13 @@
     </EntityDeploy>
     <Content Include="Models\ShopGiay.edmx.diagram">
       <DependentUpon>ShopGiay.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\TinhThanh.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>TinhThanh.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\TinhThanh.edmx.diagram">
+      <DependentUpon>TinhThanh.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
@@ -1137,6 +1180,7 @@
     <Content Include="Views\Shop\ChiTiet.cshtml" />
     <Content Include="Views\Shared\DealOfTheWeek.cshtml" />
     <Content Include="Views\Contact\Index.cshtml" />
+    <Content Include="Views\CheckOut\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

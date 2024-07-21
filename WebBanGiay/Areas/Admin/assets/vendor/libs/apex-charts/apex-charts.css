@@ -2,9 +2,10 @@
 * Apex Charts
 */
 .apexcharts-canvas {
-  position: relative;
-  user-select: none;
-  /* cannot give overflow: hidden as it will crop tooltips which overflow outside chart area */
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+    /* cannot give overflow: hidden as it will crop tooltips which overflow outside chart area */
 }
 
 /* scrollbar is not visible by default for legend, hence forcing the visibility */

@@ -4,12 +4,12 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a03a8f4886524b55adf5776bab1cd974" Name="Diagram1">
+      <Diagram DiagramId="bce73df7b486427ea2b7de1bb556c4d6" Name="Diagram1">
         <EntityTypeShape EntityType="WebBanGiayModel.Brand" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="WebBanGiayModel.Cart" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="WebBanGiayModel.Category" Width="1.5" PointX="0.75" PointY="2.375" IsExpanded="true" />
         <EntityTypeShape EntityType="WebBanGiayModel.Discount" Width="1.5" PointX="3.75" PointY="15.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="WebBanGiayModel.Order" Width="1.5" PointX="6" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBanGiayModel.Order" Width="1.5" PointX="6" PointY="14.375" IsExpanded="true" />
         <EntityTypeShape EntityType="WebBanGiayModel.OrderDetail" Width="1.5" PointX="8.25" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="WebBanGiayModel.Product" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
         <EntityTypeShape EntityType="WebBanGiayModel.User" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />

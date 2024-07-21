@@ -48,6 +48,12 @@
           <Property Name="User_Id" Type="int" />
           <Property Name="Total_Amount" Type="int" />
           <Property Name="Discount_Id" Type="int" />
+          <Property Name="Ship_Address" Type="nvarchar" MaxLength="100" />
+          <Property Name="Ship_Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="Ship_PhoneNumber" Type="varchar" MaxLength="50" />
+          <Property Name="Ship_Note" Type="nvarchar" MaxLength="200" />
+          <Property Name="Status" Type="int" />
+          <Property Name="Ship_Name" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
@@ -202,44 +208,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
-        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
         <Function Name="SP_NhapHang" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IDSanPham" Type="int" Mode="In" />
           <Parameter Name="KichThuoc" Type="float" Mode="In" />
           <Parameter Name="SoLuongNhap" Type="int" Mode="In" />
         </Function>
-        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
-        </Function>
-        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_XemKhoHangTuSanPham" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IDSanPham" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spAddOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Date" Type="datetime" Mode="In" />
+          <Parameter Name="User_Id" Type="int" Mode="In" />
+          <Parameter Name="TotalAmount" Type="int" Mode="In" />
+          <Parameter Name="discount_id" Type="int" Mode="In" />
+          <Parameter Name="address" Type="nvarchar" Mode="In" />
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+          <Parameter Name="phone" Type="varchar" Mode="In" />
+          <Parameter Name="note" Type="nvarchar" Mode="In" />
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+          <Parameter Name="maxid" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="spAddOrderDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="order_Id" Type="int" Mode="In" />
+          <Parameter Name="Product_Id" Type="int" Mode="In" />
+          <Parameter Name="quantity" Type="int" Mode="In" />
+          <Parameter Name="size" Type="int" Mode="In" />
         </Function>
         <Function Name="spDanhSachSanPham" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="filter" Type="nvarchar" Mode="In" />
@@ -349,6 +342,12 @@
           <Property Name="User_Id" Type="Int32" />
           <Property Name="Total_Amount" Type="Int32" />
           <Property Name="Discount_Id" Type="Int32" />
+          <Property Name="Ship_Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Ship_Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Ship_PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Ship_Note" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="Ship_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Discount" Relationship="Self.FK_Ord_Discount" FromRole="Order" ToRole="Discount" />
           <NavigationProperty Name="User" Relationship="Self.FK__Order__User_Id__60A75C0F" FromRole="Order" ToRole="User" />
           <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetail_Order" FromRole="Order" ToRole="OrderDetail" />
@@ -562,43 +561,31 @@
             <End Role="Products" EntitySet="Products" />
             <End Role="WareHouse" EntitySet="WareHouses" />
           </AssociationSet>
-          <FunctionImport Name="sp_alterdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
-          </FunctionImport>
-          <FunctionImport Name="sp_creatediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
-          </FunctionImport>
-          <FunctionImport Name="sp_dropdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(WebBanGiayModel.sp_helpdiagramdefinition_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(WebBanGiayModel.sp_helpdiagrams_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="SP_NhapHang">
             <Parameter Name="IDSanPham" Mode="In" Type="Int32" />
             <Parameter Name="KichThuoc" Mode="In" Type="Double" />
             <Parameter Name="SoLuongNhap" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="sp_renamediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="new_diagramname" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_upgraddiagrams" />
           <FunctionImport Name="SP_XemKhoHangTuSanPham" ReturnType="Collection(WebBanGiayModel.SP_XemKhoHangTuSanPham_Result)">
             <Parameter Name="IDSanPham" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spAddOrder">
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="User_Id" Mode="In" Type="Int32" />
+            <Parameter Name="TotalAmount" Mode="In" Type="Int32" />
+            <Parameter Name="discount_id" Mode="In" Type="Int32" />
+            <Parameter Name="address" Mode="In" Type="String" />
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="phone" Mode="In" Type="String" />
+            <Parameter Name="note" Mode="In" Type="String" />
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="maxid" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spAddOrderDetail">
+            <Parameter Name="order_Id" Mode="In" Type="Int32" />
+            <Parameter Name="Product_Id" Mode="In" Type="Int32" />
+            <Parameter Name="quantity" Mode="In" Type="Int32" />
+            <Parameter Name="size" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="spDanhSachSanPham" ReturnType="Collection(WebBanGiayModel.spDanhSachSanPham_Result)">
             <Parameter Name="filter" Mode="In" Type="String" />
@@ -609,17 +596,6 @@
             <Parameter Name="product_id" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
-        <ComplexType Name="sp_helpdiagramdefinition_Result">
-          <Property Type="Int32" Name="version" Nullable="true" />
-          <Property Type="Binary" Name="definition" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="sp_helpdiagrams_Result">
-          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
-          <Property Type="Int32" Name="OwnerID" Nullable="false" />
-        </ComplexType>
         <ComplexType Name="SP_XemKhoHangTuSanPham_Result">
           <Property Type="Int32" Name="ProWH_Id" Nullable="false" />
           <Property Type="String" Name="Product_Name" Nullable="true" MaxLength="50" />
@@ -688,6 +664,12 @@
                 <ScalarProperty Name="User_Id" ColumnName="User_Id" />
                 <ScalarProperty Name="Total_Amount" ColumnName="Total_Amount" />
                 <ScalarProperty Name="Discount_Id" ColumnName="Discount_Id" />
+                <ScalarProperty Name="Ship_Address" ColumnName="Ship_Address" />
+                <ScalarProperty Name="Ship_Email" ColumnName="Ship_Email" />
+                <ScalarProperty Name="Ship_PhoneNumber" ColumnName="Ship_PhoneNumber" />
+                <ScalarProperty Name="Ship_Note" ColumnName="Ship_Note" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Ship_Name" ColumnName="Ship_Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -740,31 +722,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="WebBanGiayModel.Store.sp_alterdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="WebBanGiayModel.Store.sp_creatediagram" />
-          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="WebBanGiayModel.Store.sp_dropdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="WebBanGiayModel.Store.sp_helpdiagramdefinition">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="WebBanGiayModel.sp_helpdiagramdefinition_Result">
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="WebBanGiayModel.Store.sp_helpdiagrams">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="WebBanGiayModel.sp_helpdiagrams_Result">
-                <ScalarProperty Name="Database" ColumnName="Database" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Owner" ColumnName="Owner" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_NhapHang" FunctionName="WebBanGiayModel.Store.SP_NhapHang" />
-          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="WebBanGiayModel.Store.sp_renamediagram" />
-          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="WebBanGiayModel.Store.sp_upgraddiagrams" />
           <FunctionImportMapping FunctionImportName="SP_XemKhoHangTuSanPham" FunctionName="WebBanGiayModel.Store.SP_XemKhoHangTuSanPham">
             <ResultMapping>
               <ComplexTypeMapping TypeName="WebBanGiayModel.SP_XemKhoHangTuSanPham_Result">
@@ -775,6 +733,8 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spAddOrder" FunctionName="WebBanGiayModel.Store.spAddOrder" />
+          <FunctionImportMapping FunctionImportName="spAddOrderDetail" FunctionName="WebBanGiayModel.Store.spAddOrderDetail" />
           <FunctionImportMapping FunctionImportName="spDanhSachSanPham" FunctionName="WebBanGiayModel.Store.spDanhSachSanPham">
             <ResultMapping>
               <ComplexTypeMapping TypeName="WebBanGiayModel.spDanhSachSanPham_Result">

@@ -25,6 +25,12 @@ namespace WebBanGiay.Models
         public Nullable<int> User_Id { get; set; }
         public Nullable<int> Total_Amount { get; set; }
         public Nullable<int> Discount_Id { get; set; }
+        public string Ship_Address { get; set; }
+        public string Ship_Email { get; set; }
+        public string Ship_PhoneNumber { get; set; }
+        public string Ship_Note { get; set; }
+        public Nullable<int> Status { get; set; }
+        public string Ship_Name { get; set; }
     
         public virtual Discount Discount { get; set; }
         public virtual User User { get; set; }

@@ -1,4 +1,4 @@
-﻿@{ 
+﻿@{
     var Customer = (WebBanGiay.Models.User)HttpContext.Current.Session["Customer"];
 }﻿
 <!DOCTYPE html>
@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="~/Content/assets/css/ion.rangeSlider.skinFlat.css" />
     <link rel="stylesheet" href="~/Content/assets/css/magnific-popup.css">
     <link rel="stylesheet" href="~/Content/assets/css/main.css">
-
+    @RenderSection("Style", false)
 
 </head>
 
@@ -206,14 +206,30 @@
         }
         else if (ViewBag.page == "Contact")
         {
+            <section class="banner-area organic-breadcrumb">
+                <div class="container">
+                    <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                        <div class="col-first">
+                            <h1>Contact Us</h1>
+                            <nav class="d-flex align-items-center">
+                                <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+                                <a href="category.html">Contact</a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        }
+        else if (ViewBag.page == "Cart")
+        {
 <section class="banner-area organic-breadcrumb">
     <div class="container">
         <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
             <div class="col-first">
-                <h1>Contact Us</h1>
+                <h1>Shopping Cart</h1>
                 <nav class="d-flex align-items-center">
                     <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-                    <a href="category.html">Contact</a>
+                    <a href="category.html">Cart</a>
                 </nav>
             </div>
         </div>
@@ -232,8 +248,8 @@
                     <div class="single-footer-widget">
                         <h6>About Us</h6>
                         <p>
-                            Hai bạn trẻ đi thực tập tốt nghiệp 
-                            nên tiện tay làm ra trang web này
+                            Hai bạn trẻ đi thực tập tốt nghiệp
+                            nên làm ra trang web này
                         </p>
                     </div>
                 </div>
@@ -298,86 +314,43 @@
                 <p class="footer-text m-0">
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     Copyright &copy;
-                    <script>document.write(new Date().getFullYear());</script> All rights reserved | This website is made by TatBinh and HoangDuc <i class="fa fa-heart-o" aria-hidden="true"></i> 
+                    <script>document.write(new Date().getFullYear());</script> All rights reserved | This website is made by TatBinh and HoangDuc <i class="fa fa-heart-o" aria-hidden="true"></i>
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 </p>
             </div>
         </div>
     </footer>
+
+
+
     <!-- End footer Area -->
 
     <script src="~/Content/assets/js/vendor/jquery-2.2.4.min.js"></script>
+
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.~/Content/assets/js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
             crossorigin="anonymous"></script>
     <script src="~/Content/assets/js/vendor/bootstrap.min.js"></script>
     <script src="~/Content/assets/js/jquery.ajaxchimp.min.js"></script>
-    <script src="~/Content/assets/js/jquery.nice-select.min.js"></script>
+
+
+    <script defer src="~/Content/assets/js/jquery.nice-select.min.js"></script>
+
+
     <script src="~/Content/assets/js/jquery.sticky.js"></script>
     <script src="~/Content/assets/js/nouislider.min.js"></script>
     <script src="~/Content/assets/js/countdown.js"></script>
     <script src="~/Content/assets/js/jquery.magnific-popup.min.js"></script>
     <script src="~/Content/assets/js/owl.carousel.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-    <script>
-        var citis = document.getElementById("city");
-        var districts = document.getElementById("district");
-        var wards = document.getElementById("ward");
-        var Parameter = {
-            url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
-            method: "GET",
-            responseType: "application/json",
-        };
-        var promise = axios(Parameter);
-        promise.then(function (result) {
-            renderCity(result.data);
-        });
 
-        function renderCity(data) {
-            for (const x of data) {
-                var opt = document.createElement('option');
-                opt.value = x.Name;
-                opt.text = x.Name;
-                opt.setAttribute('data-id', x.Id);
-                citis.options.add(opt);
-            }
-            citis.onchange = function () {
-                district.length = 1;
-                ward.length = 1;
-                if (this.options[this.selectedIndex].dataset.id != "") {
-                    const result = data.filter(n => n.Id === this.options[this.selectedIndex].dataset.id);
-
-                    for (const k of result[0].Districts) {
-                        var opt = document.createElement('option');
-                        opt.value = k.Name;
-                        opt.text = k.Name;
-                        opt.setAttribute('data-id', k.Id);
-                        district.options.add(opt);
-                    }
-                }
-            };
-            district.onchange = function () {
-                ward.length = 1;
-                const dataCity = data.filter((n) => n.Id === citis.options[citis.selectedIndex].dataset.id);
-                if (this.options[this.selectedIndex].dataset.id != "") {
-                    const dataWards = dataCity[0].Districts.filter(n => n.Id === this.options[this.selectedIndex].dataset.id)[0].Wards;
-
-                    for (const w of dataWards) {
-                        var opt = document.createElement('option');
-                        opt.value = w.Name;
-                        opt.text = w.Name;
-                        opt.setAttribute('data-id', w.Id);
-                        wards.options.add(opt);
-                    }
-                }
-            };
-        }
-    </script>
 
     <!--gmaps Js-->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
     <script src="~/Content/assets/js/gmaps.min.js"></script>
     <script src="~/Content/assets/js/main.js"></script>
+
     @RenderSection("Script", false)
+
 </body>
 
 </html>
