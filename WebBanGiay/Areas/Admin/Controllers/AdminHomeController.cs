@@ -74,11 +74,13 @@ namespace WebBanGiay.Areas.Admin.Controllers
                                  ProductName = g.Key,
                                  Revenue = g.Sum(x => x.Total)
                              })
-                             .Take(5)
+                             .OrderByDescending(x => x.Revenue) // Sắp xếp theo doanh thu giảm dần
+                             .Take(5) // Lấy 5 sản phẩm có doanh thu cao nhất
                              .ToList();
 
                 return Json(data, JsonRequestBehavior.AllowGet);
             }
         }
+
     }
 }

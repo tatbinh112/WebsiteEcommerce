@@ -1,0 +1,94 @@
+﻿@model IEnumerable<WebBanGiay.Models.Order>
+
+@{
+    ViewBag.Title = "DanhSach";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@Html.AntiForgeryToken()  <!-- Add this line if not already in the form -->
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Bán Hàng /</span>Đơn Hàng </h4>
+<div class="card">
+    <h5 class="card-header"></h5>
+    <div class="table-responsive text-nowrap">
+        <!-- View -->
+        <table class="table">
+            <tr>
+                <th>Ngày</th>
+                <th>Tổng Tiền</th>
+                <th>Địa Chỉ</th>
+                <th>Số Điện Thoại</th>
+                <th>Ghi Chú</th>
+                <th>Tình Trạng</th>
+                <th>@Html.DisplayNameFor(model => model.Ship_Name)</th>
+                <th>Mã Giảm Giá</th>
+                <th>Tên Tài Khoản</th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                    <td>@String.Format("{0:N0}đ", item.Total_Amount)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Ship_Address)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Ship_PhoneNumber)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Ship_Note)</td>
+                    <td>
+                        <span class="badge @(item.Status == 1 ? "bg-label-success" : "bg-label-warning") me-1">
+                            @(item.Status == 1 ? "Đã xác nhận" : "Chưa xác nhận")
+                        </span>
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.Ship_Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Discount.Discount_Code)</td>
+                    <td>@Html.DisplayFor(modelItem => item.User.Name)</td>
+                    <td>
+                        <div style="display: flex; align-items: center;">
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked_@item.Order_Id" onchange="updateStatus(@item.Order_Id, this.checked)" @(item.Status == 1 ? "checked" : "")>
+                            <span style="margin-left: 10px;">@Html.ActionLink("Details", "ChiTiet", new { id = item.Order_Id })</span>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </table>
+
+
+
+        <script>
+            function updateStatus(orderId, isChecked) {
+                var newStatus = isChecked ? 1 : 0;
+                var token = $('input[name="__RequestVerificationToken"]').val(); // Get the token
+
+                fetch('@Url.Action("UpdateStatus", "DonHang")', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': token
+                    },
+                    body: JSON.stringify({ orderId: orderId, status: newStatus })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update status in the UI
+                        var statusBadge = document.querySelector(`#flexSwitchCheckChecked_${orderId}`).closest('tr').querySelector('td:nth-child(6) .badge');
+                        if (newStatus == 1) {
+                            statusBadge.classList.remove('bg-label-warning');
+                            statusBadge.classList.add('bg-label-success');
+                            statusBadge.textContent = 'Đã xác nhận';
+                        } else {
+                            statusBadge.classList.remove('bg-label-success');
+                            statusBadge.classList.add('bg-label-warning');
+                            statusBadge.textContent = 'Chưa xác nhận';
+                        }
+                    } else {
+                        console.log('Error updating status:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+
+        </script>
+
+    </div>
+</div>

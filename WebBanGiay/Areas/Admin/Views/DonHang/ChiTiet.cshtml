@@ -1,0 +1,108 @@
+﻿@model IEnumerable<WebBanGiay.Models.Order>
+@using WebBanGiay.Models;
+@{
+    ViewBag.Title = "Chi Tiết Đơn Hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var order = ViewBag.Order as WebBanGiay.Models.Order;
+    WebBanGiayEntities db = new WebBanGiayEntities();
+    var orderDetails = ViewBag.OrderDetails as List<WebBanGiay.Models.OrderDetail>;
+}
+
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Bán Hàng /</span>Đơn Hàng /Chi Tiết Đơn Hàng</h4>
+<div class="card">
+    <h5 class="card-header"></h5>
+    <div class="table-responsive text-nowrap">
+        <!-- View -->
+        <table class="table">
+            <tr>
+                <th>Mã Đơn Hàng:</th>
+                <td>@order.Order_Id</td>
+            </tr>
+            <tr>
+                <th>Ngày:</th>
+                <td>@order.Date</td>
+            </tr>
+            <tr>
+                <th>Tổng Cộng:</th>
+                <td>
+                    @String.Format("{0:N0}đ", order.Total_Amount)
+                </td>
+            </tr>
+            <tr>
+                <th>Địa Chỉ Giao Hàng:</th>
+                <td>@order.Ship_Address</td>
+            </tr>
+            <tr>
+                <th>Số Điện Thoại:</th>
+                <td>@order.Ship_PhoneNumber</td>
+            </tr>
+            <tr>
+                <th>Ghi Chú:</th>
+                <td>@order.Ship_Note</td>
+            </tr>
+            <tr>
+                <th>Tình Trạng:</th>
+                <td>
+                    @if (order.Status == 1)
+                    {
+                        <span class="badge bg-label-success">Đã xác nhận</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-label-warning">Chưa xác nhận</span>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <th>Tên Người Nhận:</th>
+                <td>@order.Ship_Name</td>
+            </tr>
+        </table>
+        <div class="card">
+            <h5 class="card-header"></h5>
+            <div class="table-responsive text-nowrap">
+                <h5 class="detail-header">Chi Tiết Đơn Hàng</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product ID</th>
+                            <th>Tên Sản Phẩm</th>
+                            <th>Số Lượng</th>
+                            <th>Kích Cỡ</th>
+                            <th>Đơn Giá</th>
+                            <th>Tổng Tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var detail in orderDetails)
+                        {
+                            var product = db.Products.Find(detail.Product_Id);
+                            var price = product != null ? product.Product_Price : 0;
+                            var totalAmount = detail.Quantity * price;
+
+                            <tr>
+                                <td>@detail.Product_Id</td>
+                                <td>@(product != null ? product.Product_Name : "Không tìm thấy")</td>
+                                <td>@detail.Quantity</td>
+                                <td>@detail.Size</td>
+                                <td>@String.Format("{0:N0}đ", price)</td>
+                                <td>@String.Format("{0:N0}đ", totalAmount)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "DanhSach")
+</div>
+<style>
+    .detail-header {
+        margin-bottom: 15px; /* Adjusts the space below the header */
+        padding-right: 15px; /* Adds space on the right side */
+        padding-left: 20px;
+    }
+</style>

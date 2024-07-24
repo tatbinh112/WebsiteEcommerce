@@ -15,18 +15,40 @@ namespace WebBanGiay.Areas.Admin.Controllers
 {
     public class SanPhamController : Controller
     {
-        string connectionstring = @"Data Source=mssql-178232-0.cloudclusters.net,10017;Initial Catalog=WebBanGiay;User ID=tatbinh;Password=Ab123456";
+        string connectionstring = @"Data Source=mssql-178969-0.cloudclusters.net,10083;Initial Catalog=WebBanGiay;User ID=tatbinh;Password=Ab123456";
         // GET: Admin/SanPham
         [@Authorize(role ="0,1")]
         public ActionResult DanhSach(string filter, int? idCategory, int? idBrand)
         {
             WebBanGiayEntities db = new WebBanGiayEntities();
             List<spDanhSachSanPham_Result> dskh = db.spDanhSachSanPham(filter, idCategory, idBrand).ToList();
+
+            // Lấy thông tin số lượng tổng hợp từ bảng Warehouses
+            var warehouseQuantities = db.WareHouses
+                .GroupBy(w => w.Product_Id)
+                .Select(g => new
+                {
+                    Product_Id = g.Key,
+                    TotalQuantity = g.Sum(w => w.Quantity)
+                }).ToDictionary(x => x.Product_Id, x => x.TotalQuantity);
+
+            // Thêm thông tin số lượng tổng hợp vào danh sách sản phẩm
+            foreach (var item in dskh)
+            {
+                if (warehouseQuantities.TryGetValue(item.Product_Id, out int totalQuantity))
+                {
+                    item.Product_Quantity = totalQuantity;
+                }
+            }
+
             ViewBag.filter = filter;
             ViewBag.idCategory = idCategory;
             ViewBag.idBrand = idBrand;
             return View(dskh);
         }
+
+
+
         [@Authorize(role ="0")]
         public ActionResult ThemMoi()
         {
@@ -63,7 +85,7 @@ namespace WebBanGiay.Areas.Admin.Controllers
                 // Thêm các size cho sản phẩm vào bảng KhoHang
                 for (int size = 35; size <= 44; size++)
                 {
-                    string queryKhoHang = "INSERT INTO WareHouse (Product_Id, Size, Quantity) VALUES (@Product_Id, @Size, 0)";
+                    string queryKhoHang = "INSERT INTO WareHouse (Product_Id, Size, Quantity) VALUES (@Product_Id, @Size, 30)";
                     using (SqlCommand cmdKhoHang = new SqlCommand(queryKhoHang, sqlCon))
                     {
                         cmdKhoHang.Parameters.AddWithValue("@Product_Id", model.Product_Id);

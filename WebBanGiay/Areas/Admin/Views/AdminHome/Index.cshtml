@@ -161,39 +161,40 @@
                     });
 
                     // Column Chart
-                    $.ajax({
-                        url: '@Url.Action("GetProductRevenueData", "AdminHome")',
-                        method: 'GET',
-                        success: function (data) {
-                            const columnCtx = document.getElementById('columnChart').getContext('2d');
-                            const columnLabels = data.map(item => item.ProductName);
-                            const columnRevenues = data.map(item => item.Revenue);
+                        $.ajax({
+                            url: '@Url.Action("GetProductRevenueData", "AdminHome")',
+                            method: 'GET',
+                            success: function (data) {
+                                // Column Chart
+                                const columnCtx = document.getElementById('columnChart').getContext('2d');
+                                const columnLabels = data.map(item => item.ProductName);
+                                const columnRevenues = data.map(item => item.Revenue);
 
-                            new Chart(columnCtx, {
-                                type: 'bar',
-                                data: {
-                                    labels: columnLabels,
-                                    datasets: [{
-                                        label: 'Product Revenue',
-                                        data: columnRevenues,
-                                        borderWidth: 1,
-                                        backgroundColor: 'rgba(255, 159, 64, 0.2)',
-                                        borderColor: 'rgba(255, 159, 64, 1)'
-                                    }]
-                                },
-                                options: {
-                                    scales: {
-                                        y: {
-                                            beginAtZero: true
+                                new Chart(columnCtx, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: columnLabels,
+                                        datasets: [{
+                                            label: 'Product Revenue',
+                                            data: columnRevenues,
+                                            borderWidth: 1,
+                                            backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                                            borderColor: 'rgba(255, 159, 64, 1)'
+                                        }]
+                                    },
+                                    options: {
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true
+                                            }
                                         }
                                     }
-                                }
-                            });
-                        },
-                        error: function (error) {
-                            console.log("Error fetching data", error);
-                        }
-                    });
+                                });
+                            },
+                            error: function (error) {
+                                console.log("Error fetching data", error);
+                            }
+                        });
                 },
                 error: function (error) {
                     console.log("Error fetching data", error);
