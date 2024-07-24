@@ -81,8 +81,6 @@ namespace WebBanGiay.Controllers
                 db.Orders.Add(model);
                 foreach (var item in cart)
                 {
-
-
                     db.spAddOrderDetail(maxID, item.Product_Id, item.Quantity, item.Size);
 
                 };
@@ -93,8 +91,6 @@ namespace WebBanGiay.Controllers
 
                 var cartItem = Session["Cart"] as List<Cart>;
                 var cart = cartItem.Where(c => c.User_Id == Customer.User_Id);
-
-                db.Orders.Add(model);
                 foreach (var item in cart)
                 {
 

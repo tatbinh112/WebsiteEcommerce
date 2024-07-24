@@ -1,11 +1,4 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-    ViewBag.Active = "DashBoard";
-
-    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,17 +9,19 @@
     <style>
         .chart-container {
             display: flex;
-            width: 110%;
-            height: 110%;
-            /*justify-content: space-around;*/
+            flex-wrap: wrap;
+            width: 100%;
+            height: 600px;
         }
 
         .chart-box {
-            width: 120%; /* Biểu đồ cột to hơn */
+            width: 48%; /* Biểu đồ cột và biểu đồ đường to hơn */
+            margin: 1%;
         }
 
         .chart-box-small {
-            width: 60%; /* Biểu đồ tròn nhỏ hơn */
+            width: 38%; /* Biểu đồ tròn nhỏ hơn */
+            margin: 1%;
         }
 
         canvas {
@@ -40,8 +35,14 @@
         <div class="chart-box">
             <canvas id="barChart"></canvas>
         </div>
+        <div class="chart-box">
+            <canvas id="lineChart"></canvas>
+        </div>
         <div class="chart-box-small">
             <canvas id="pieChart"></canvas>
+        </div>
+        <div class="chart-box">
+            <canvas id="columnChart"></canvas>
         </div>
     </div>
 
@@ -122,6 +123,77 @@
                             }
                         }
                     });
+
+                    // Line Chart
+                    $.ajax({
+                        url: '@Url.Action("GetMonthlyRevenueData", "AdminHome")',
+                        method: 'GET',
+                        success: function (data) {
+                            const lineCtx = document.getElementById('lineChart').getContext('2d');
+                            const lineLabels = data.map(item => `${item.Month}/${item.Year}`);
+                            const lineRevenues = data.map(item => item.Revenue);
+
+                            new Chart(lineCtx, {
+                                type: 'line',
+                                data: {
+                                    labels: lineLabels,
+                                    datasets: [{
+                                        label: 'Monthly Revenue',
+                                        data: lineRevenues,
+                                        borderWidth: 1,
+                                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                        borderColor: 'rgba(75, 192, 192, 1)',
+                                        fill: true
+                                    }]
+                                },
+                                options: {
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true
+                                        }
+                                    }
+                                }
+                            });
+                        },
+                        error: function (error) {
+                            console.log("Error fetching data", error);
+                        }
+                    });
+
+                    // Column Chart
+                    $.ajax({
+                        url: '@Url.Action("GetProductRevenueData", "AdminHome")',
+                        method: 'GET',
+                        success: function (data) {
+                            const columnCtx = document.getElementById('columnChart').getContext('2d');
+                            const columnLabels = data.map(item => item.ProductName);
+                            const columnRevenues = data.map(item => item.Revenue);
+
+                            new Chart(columnCtx, {
+                                type: 'bar',
+                                data: {
+                                    labels: columnLabels,
+                                    datasets: [{
+                                        label: 'Product Revenue',
+                                        data: columnRevenues,
+                                        borderWidth: 1,
+                                        backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                                        borderColor: 'rgba(255, 159, 64, 1)'
+                                    }]
+                                },
+                                options: {
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true
+                                        }
+                                    }
+                                }
+                            });
+                        },
+                        error: function (error) {
+                            console.log("Error fetching data", error);
+                        }
+                    });
                 },
                 error: function (error) {
                     console.log("Error fetching data", error);
@@ -131,55 +203,3 @@
     </script>
 </body>
 </html>
-
-
-
-@*<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Chart Example</title>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    </head>
-    <body>
-        <canvas id="myChart"></canvas>
-
-        <script>
-            $(document).ready(function () {
-                $.ajax({
-                    url: '@Url.Action("GetChartData", "AdminHome")',
-                    method: 'GET',
-                    success: function (data) {
-                        const ctx = document.getElementById('myChart').getContext('2d');
-
-                        const labels = data.map(item => item.ProductName);
-                        const quantities = data.map(item => item.Quantity);
-
-                        new Chart(ctx, {
-                            type: 'bar',
-                            data: {
-                                labels: labels,
-                                datasets: [{
-                                    label: '# of Shoes',
-                                    data: quantities,
-                                    borderWidth: 1
-                                }]
-                            },
-                            options: {
-                                scales: {
-                                    y: {
-                                        beginAtZero: true
-                                    }
-                                }
-                            }
-                        });
-                    },
-                    error: function (error) {
-                        console.log("Error fetching data", error);
-                    }
-                });
-            });
-        </script>
-    </body>
-    </html>*@
