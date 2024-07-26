@@ -145,6 +145,7 @@
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1135,6 +1136,8 @@
     <Content Include="Areas\Admin\Views\AdminError\KhongCoQuyen.cshtml" />
     <Content Include="img\.DS_Store" />
     <Content Include="img\organic-food\.DS_Store" />
+    <Content Include="Areas\Admin\Views\DonHang\DanhSach.cshtml" />
+    <Content Include="Areas\Admin\Views\DonHang\ChiTiet.cshtml" />
     <EntityDeploy Include="Models\ShopGiay.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ShopGiay.Designer.cs</LastGenOutput>
@@ -1149,8 +1152,6 @@
     <Content Include="Models\TinhThanh.edmx.diagram">
       <DependentUpon>TinhThanh.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Admin\Views\DonHang\DanhSach.cshtml" />
-    <Content Include="Areas\Admin\Views\DonHang\ChiTiet.cshtml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
@@ -1184,6 +1185,8 @@
     <Content Include="Views\Shared\DealOfTheWeek.cshtml" />
     <Content Include="Views\Contact\Index.cshtml" />
     <Content Include="Views\CheckOut\Index.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Order\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

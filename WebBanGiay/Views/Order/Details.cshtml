@@ -1,0 +1,182 @@
+﻿@model WebBanGiay.Models.Order
+@using WebBanGiay.Models;
+@{
+    ViewBag.Title = "Details";
+    ViewBag.page = "Order";
+    WebBanGiayEntities db = new WebBanGiayEntities();
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container1">
+    <div class="card">
+        <div class="card-body">
+            <div class="order-info">
+                <h5 class="info-title">Thông Tin Đơn Hàng</h5>
+                <hr />
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong class="label">Ngày đặt hàng:</strong> @ViewBag.Order.Date.ToString("dd/MM/yyyy")</p>
+                        <p><strong class="label">Tổng tiền:</strong>@String.Format("{0:N0}đ", @ViewBag.Order.Total_Amount)</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong class="label">Địa chỉ giao hàng:</strong> @ViewBag.Order.Ship_Address</p>
+                        <p>
+                            <strong class="label">Tình trạng:</strong>
+                            @{
+                                var statusClass = @ViewBag.Order.Status == 1 ? "badge-success" : "badge-warning";
+                                var statusText = @ViewBag.Order.Status == 1 ? "Đã xác nhận" : "Chưa xác nhận";
+                            }
+                            <span class="badge @statusClass">@statusText</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-details mt-4">
+                <h5 class="info-title">Chi tiết sản phẩm</h5>
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Tên sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Kích cỡ</th>
+                            <th>Đơn Giá</th>
+                            <th>Tổng Tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var detail in ViewBag.OrderDetails)
+                        {
+                            var product = db.Products.Find(detail.Product_Id);
+                            var price = product != null ? product.Product_Price : 0;
+                            var totalAmount = detail.Quantity * price;
+
+                            <tr>
+                                <td>@(product != null ? product.Product_Name : "Không tìm thấy")</td>
+                                <td>@detail.Quantity</td>
+                                <td>@detail.Size</td>
+                                <td>@String.Format("{0:N0}đ", price)</td>
+                                <td>@String.Format("{0:N0}đ", totalAmount)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Thêm liên kết quay về trang Index -->
+            <div class="mt-4">
+                <a href="@Url.Action("Index", "Order")" class="btn btn-orange">Quay về danh sách đơn hàng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Đảm bảo container có khoảng cách và căn giữa nội dung */
+    .container1 {
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 1200px; /* Đặt chiều rộng tối đa cho card */
+        background-color: #ffffff;
+        border-radius: 8px; /* Bo tròn các góc */
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Tăng cường bóng đổ */
+    }
+
+    /* Định dạng tiêu đề thông tin đơn hàng */
+    .info-title {
+        font-size: 1.5em; /* Tăng kích thước chữ cho tiêu đề */
+        font-weight: bold; /* Đậm chữ */
+        margin-bottom: 15px; /* Khoảng cách dưới tiêu đề */
+        color: #343a40; /* Màu chữ */
+        font-family: 'Arial', sans-serif; /* Đặt font chữ */
+    }
+
+    .order-info {
+        margin-bottom: 30px; /* Khoảng cách dưới phần thông tin đơn hàng */
+    }
+
+    .order-details {
+        margin-top: 30px; /* Khoảng cách trên phần chi tiết sản phẩm */
+    }
+
+    /* Định dạng bảng sản phẩm */
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 1.1em; /* Tăng kích thước chữ */
+        font-family: 'Arial', sans-serif; /* Đặt font chữ */
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.2); /* Tăng cường bóng đổ */
+    }
+
+        .styled-table thead tr {
+            background-color: #6c757d;
+            color: #ffffff;
+            text-align: left;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 15px 20px; /* Tăng padding của các ô */
+        }
+
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+            .styled-table tbody tr:nth-of-type(even) {
+                background-color: #f3f3f3;
+            }
+
+            .styled-table tbody tr:last-of-type {
+                border-bottom: 2px solid #6c757d;
+            }
+
+            .styled-table tbody tr.active-row {
+                font-weight: bold;
+                color: #6c757d;
+            }
+
+    .badge-success {
+        background-color: #28a745;
+        color: #ffffff;
+    }
+
+    .badge-warning {
+        background-color: #ffc107;
+        color: #000000;
+    }
+
+    /* Định dạng nhãn thông tin đơn hàng */
+    .label {
+        font-size: 1.2em; /* Tăng kích thước chữ của nhãn thông tin */
+        font-weight: bold; /* Đậm chữ */
+        margin-right: 10px; /* Khoảng cách giữa nhãn và giá trị */
+        color: #343a40; /* Màu chữ nhãn */
+    }
+    .btn-orange {
+        background-color: #f0790a; /* Màu cam */
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold; /* Đậm chữ */
+        display: inline-block;
+    }
+
+        .btn-orange:hover {
+            background-color: #e06500; /* Màu cam đậm khi hover */
+        }
+
+    /* Định dạng bảng chi tiết đơn hàng */
+    .table th, .table td {
+        font-size: 1em; /* Kích thước chữ của các ô trong bảng */
+    }
+</style>

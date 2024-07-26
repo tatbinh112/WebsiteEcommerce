@@ -1,4 +1,4 @@
-﻿
+﻿﻿
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,26 +7,34 @@
 <section class="login_box_area section_gap">
     <div class="container">
         <div class="row">
-            <div  class="col-lg-6">
+            <div style="margin:auto" class="col-lg-6">
                 <div class="login_form_inner">
                     <h3>Đăng ký</h3>
-                    <form class="row login_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+                    <form class="row login_form" action="Create" method="post" id="registerForm" novalidate>
                         <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Số điện thoại" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Số điện thoại'">
+                            <input type="text" class="form-control" id="user_name" name="User_Name" placeholder="Tên đăng nhập" autocomplete="off" required>
+                        </div>
+                        <p class="text-danger">@TempData["user"] </p>
+                        <div class="col-md-12 form-group">
+                            <input type="password" class="form-control" id="Password" name="Pass_Word" placeholder="Mật khẩu" autocomplete="off" required>
                         </div>
                         <div class="col-md-12 form-group">
-                            <input type="email" class="form-control" id="name" name="name" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'">
+                            <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword" placeholder="Nhập lại mật khẩu" autocomplete="off" required>
+                            <p id="passwordError" class="text-danger" style="display: none;">Mật khẩu không trùng khớp</p>
+                        </div>
+
+                        <div class="col-md-12 form-group">
+                            <input type="text" class="form-control" id="Phone" name="Phone_Number" placeholder="Số điện thoại" autocomplete="off" required>
+                            <p class="text-danger">@TempData["phone"] </p>
+
                         </div>
                         <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Tên đăng nhập" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tên đăng nhập'">
+                            <input type="email" class="form-control" id="mail" name="Email" placeholder="Email" autocomplete="off" required>
+                            <p class="text-danger">@TempData["email"] </p>
+
                         </div>
-                        <div class="col-md-12 form-group">
-                            <input type="password" class="form-control" id="name" name="name" placeholder="Mật khẩu" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Mật khẩu'">
-                        </div>
-                        <div class="col-md-12 form-group">
-                            <input type="password" class="form-control" id="name2" name="name" placeholder="Nhập lại mật khẩu" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nhập lại mật khẩu'">
-                        </div>
-                        
+
+
                         <div class="col-md-12 form-group">
                             <button type="submit" value="submit" class="primary-btn">Đăng ký</button>
                         </div>
@@ -37,3 +45,22 @@
     </div>
 </section>
 <!--================End Login Box Area =================-->
+
+@section Script
+    {
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function (e) {
+            var password = document.getElementById('Password').value;
+            var confirmPassword = document.getElementById('ConfirmPassword').value;
+            var passwordError = document.getElementById('passwordError');
+
+            if (password !== confirmPassword) {
+                e.preventDefault();
+                passwordError.style.display = 'block';
+            }
+            else {
+                passwordError.style.display = 'none';
+            }
+        });
+    </script>
+}

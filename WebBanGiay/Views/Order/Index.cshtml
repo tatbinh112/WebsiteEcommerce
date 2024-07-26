@@ -1,0 +1,114 @@
+﻿@model IEnumerable<WebBanGiay.Models.Order>
+@{
+    ViewBag.Title = "Danh sách đơn hàng";
+    ViewBag.page = "Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="card">
+    <h5 class="card-header"></h5>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Ngày</th>
+                <th>Tổng Tiền</th>
+                <th>Địa Chỉ</th>
+                <th>Số Điện Thoại</th>
+                <th>Tình Trạng</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr class="active-row">
+                    <td>@order.Date</td>
+                    <td>@String.Format("{0:N0}đ", order.Total_Amount)</td>
+                    <td>@order.Ship_Address</td>
+                    <td>@order.Ship_PhoneNumber</td>
+                    <td>@(order.Status == 1 ? "Đã xác nhận" : "Chưa xác nhận")</td>
+                    <td>
+                        <a href="@Url.Action("Details", "Order", new { id = order.Order_Id })" class="btn-link">Chi Tiết</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+<style>
+    .highlighted-title {
+        font-size: 2em; /* Tăng kích thước chữ */
+        font-weight: bold; /* Đậm chữ */
+        color: #343a40; /* Chọn màu chữ nổi bật */
+        text-align: center; /* Căn giữa tiêu đề */
+        margin-bottom: 20px; /* Tăng khoảng cách dưới tiêu đề */
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Thêm bóng chữ nhẹ */
+    }
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .card {
+        background-color: #ffffff;
+        padding: 30px; /* Tăng padding để bảng có thêm không gian xung quanh */
+        border-radius: 8px; /* Tăng độ bo tròn */
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Tăng cường bóng đổ */
+        width: 80%; /* Tăng chiều rộng của card */
+        margin: auto; /* Căn giữa card */
+    }
+
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 1.1em; /* Tăng kích thước chữ */
+        font-family: sans-serif;
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.2); /* Tăng cường bóng đổ */
+    }
+
+        .styled-table thead tr {
+            background-color: #6c757d;
+            color: #ffffff;
+            text-align: left;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 15px 20px; /* Tăng padding của các ô */
+        }
+
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+            .styled-table tbody tr:nth-of-type(even) {
+                background-color: #f3f3f3;
+            }
+
+            .styled-table tbody tr:last-of-type {
+                border-bottom: 2px solid #6c757d;
+            }
+
+            .styled-table tbody tr.active-row {
+                font-weight: bold;
+                color: #6c757d;
+            }
+
+    .text-center {
+        text-align: center;
+    }
+    .btn-link {
+        color: #f0790a; /* Màu cam */
+        text-decoration: none; /* Bỏ gạch chân */
+        font-weight: bold; /* Đậm chữ */
+    }
+
+        .btn-link:hover {
+            text-decoration: underline; /* Gạch chân khi hover */
+            color: #e06500; /* Màu cam đậm khi hover */
+        }
+</style>
