@@ -65,12 +65,24 @@ namespace WebBanGiay.Controllers
         }
 
         [HttpPost]
-        public ActionResult Payment(Order model)
+        public ActionResult Payment(Order model, string Total_Amount)
         {
             ObjectParameter maxidParam = new ObjectParameter("maxid", typeof(int));
             var Customer = Session["Customer"] as User;
             model.User_Id = Customer.User_Id;
             model.Date = DateTime.Now;
+
+            // Chuyển đổi Total_Amount từ string sang decimal
+            if (decimal.TryParse(Total_Amount, out decimal totalAmount))
+            {
+                model.Total_Amount = (int?)totalAmount;
+            }
+            else
+            {
+                // Xử lý lỗi nếu việc chuyển đổi không thành công
+                ModelState.AddModelError("", "Total Amount is not valid.");
+                return View(model);
+            }
 
             db.spAddOrder(model.Date, model.User_Id, model.Total_Amount, model.Discount_Id, model.Ship_Address, model.Ship_Email, model.Ship_PhoneNumber, model.Ship_Note, model.Ship_Name, maxidParam);
             int maxID = (int)maxidParam.Value;
@@ -80,7 +92,6 @@ namespace WebBanGiay.Controllers
             if (Customer != null)
             {
                 cart = db.Carts.Where(c => c.User_Id == Customer.User_Id).ToList();
-                db.Orders.Add(model);
                 foreach (var item in cart)
                 {
                     db.spAddOrderDetail(maxID, item.Product_Id, item.Quantity, item.Size);
@@ -102,6 +113,7 @@ namespace WebBanGiay.Controllers
 
             return RedirectToAction("index", "Shop");
         }
+
 
         private void UpdateWarehouse(int productId, int size, int quantity)
         {

@@ -57,7 +57,6 @@
 
                                 <tr>
                                     <form id="Form-@item.Product_Id-@item.Size" action="~/Cart/UpdateCart" method="post">
-
                                     <td>
                                         <div class="media">
                                             <div class="d-flex">
@@ -71,7 +70,6 @@
 
                                     <td>
                                         <div class="media">
-
                                             <div class="media-body">
                                                 <p>@item.Size</p>
                                             </div>
@@ -84,41 +82,40 @@
                                                 int price = Convert.ToInt32(product.Product_Price);
                                                 string formattedPrice = price.ToString("N0", new System.Globalization.CultureInfo("vi-VN"));
                                                 <span>@formattedPrice₫</span>
-
                                             }
                                         </h5>
                                     </td>
+
                                     <td>
                                         <div class="product_count">
-                                            <input type="number" name="Quantity" id="sst-@item.Product_Id-@item.Size" maxlength="12" value="@item.Quantity" title="Quantity:"
-                                                   class="input-text qty">
-                                            <button onclick="increaseQuantity('@item.Product_Id','@item.Size')" class="increase items-count" type="button">
+                                            <input type="number" name="Quantity" id="sst-@item.Product_Id-@item.Size" maxlength="12" value="@item.Quantity" title="Quantity:" class="input-text qty">
+                                            <button type="button" onclick="increaseQuantity('@item.Product_Id', '@item.Size')" class="increase items-count">
                                                 <i class="lnr lnr-chevron-up"></i>
                                             </button>
-                                            <button onclick="decreaseQuantity('@item.Product_Id','@item.Size')" class="reduced items-count" type="button">
+                                            <button type="button" onclick="decreaseQuantity('@item.Product_Id', '@item.Size')" class="reduced items-count">
                                                 <i class="lnr lnr-chevron-down"></i>
                                             </button>
                                         </div>
-
                                     </td>
+
                                     <td>
                                         <h5>
                                             @{
-                                                int price1 = Convert.ToInt32(product.Product_Price * item.Quantity);
-                                                string formattedPrice1 = price1.ToString("N0", new System.Globalization.CultureInfo("vi-VN"));
-                                                <span>@formattedPrice1₫</span>
-                                                ViewBag.Tong = ViewBag.Tong + price1;
+                                                int totalPrice = Convert.ToInt32(product.Product_Price * item.Quantity);
+                                                string formattedTotalPrice = totalPrice.ToString("N0", new System.Globalization.CultureInfo("vi-VN"));
+                                                <span>@formattedTotalPrice₫</span>
+                                                ViewBag.Tong = ViewBag.Tong + totalPrice;
                                             }
                                         </h5>
-
                                     </td>
+
                                     <td>
                                         <h5>
                                             <a href="#" class="genric-btn danger-border circle">Xóa</a>
                                         </h5>
-
                                     </td>
                                     </form>
+
                                 </tr>
 
 
