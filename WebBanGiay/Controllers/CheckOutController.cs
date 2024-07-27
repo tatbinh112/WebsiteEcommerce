@@ -97,6 +97,9 @@ namespace WebBanGiay.Controllers
                     db.spAddOrderDetail(maxID, item.Product_Id, item.Quantity, item.Size);
                     UpdateWarehouse(item.Product_Id ?? 0, item.Size ?? 0, item.Quantity ?? 0);
                 }
+
+                // Xóa tất cả sản phẩm trong giỏ hàng của người dùng sau khi thanh toán
+                db.Carts.RemoveRange(cart);
             }
             else
             {
@@ -107,12 +110,16 @@ namespace WebBanGiay.Controllers
                     db.spAddOrderDetail(maxID, item.Product_Id, item.Quantity, item.Size);
                     UpdateWarehouse(item.Product_Id ?? 0, item.Size ?? 0, item.Quantity ?? 0);
                 }
+
+                // Xóa tất cả sản phẩm trong giỏ hàng của người dùng sau khi thanh toán
+                Session["Cart"] = null;
             }
 
             db.SaveChanges();
 
-            return RedirectToAction("index", "Shop");
+            return RedirectToAction("Index", "Shop");
         }
+
 
 
         private void UpdateWarehouse(int productId, int size, int quantity)
