@@ -77,42 +77,63 @@ namespace WebBanGiay.Controllers
             }
         }
         [HttpPost]
-        public ActionResult UpdateCart(Cart model)
+        public JsonResult UpdateQuantity(int productId, int size, int quantity)
         {
             var Customer = Session["Customer"] as User;
-            // Trường hợp người dùng đã đăng nhập
             if (Customer != null)
             {
-                var existingCartItem = db.Carts.FirstOrDefault(c => c.Cart_Id == model.Cart_Id);
-                if (existingCartItem != null)
-                {
-                    existingCartItem.Quantity = model.Quantity;
-                    db.Carts.Add(model);
-                    db.SaveChanges();
-
-                }
-
-
-                return RedirectToAction("Index");
-            }
-            // Trường hợp người dùng chưa đăng nhập
-            else
-            {
-                var Carts = new List<Cart>();
-
-                Carts = Session["Cart"] as List<Cart>;
-
-
-                var cartItem = Carts.FirstOrDefault(c => c.Product_Id == model.Product_Id && c.Size == model.Size);
+                var cartItem = db.Carts.FirstOrDefault(c => c.User_Id == Customer.User_Id && c.Product_Id == productId && c.Size == size);
                 if (cartItem != null)
                 {
-                    cartItem.Quantity = model.Quantity;
+                    cartItem.Quantity = quantity;
+                    db.SaveChanges();
+                    return Json(new { success = true });
                 }
-
-                Session["Cart"] = Carts;
-
-                return RedirectToAction("Index");
             }
+            else
+            {
+                var cartItems = Session["Cart"] as List<Cart>;
+                if (cartItems != null)
+                {
+                    var cartItem = cartItems.FirstOrDefault(c => c.Product_Id == productId && c.Size == size);
+                    if (cartItem != null)
+                    {
+                        cartItem.Quantity = quantity;
+                        Session["Cart"] = cartItems;
+                        return Json(new { success = true });
+                    }
+                }
+            }
+            return Json(new { success = false });
+        }
+
+
+        [HttpPost]
+        public JsonResult RemoveFromCart(int productId, int size)
+        {
+            var Customer = Session["Customer"] as User;
+            if (Customer != null)
+            {
+                var cartItem = db.Carts.FirstOrDefault(c => c.User_Id == Customer.User_Id && c.Product_Id == productId && c.Size == size);
+                if (cartItem != null)
+                {
+                    db.Carts.Remove(cartItem);
+                    db.SaveChanges();
+                    return Json(new { success = true });
+                }
+            }
+            else
+            {
+                var Carts = Session["Cart"] as List<Cart>;
+                var cartItem = Carts.FirstOrDefault(c => c.Product_Id == productId && c.Size == size);
+                if (cartItem != null)
+                {
+                    Carts.Remove(cartItem);
+                    Session["Cart"] = Carts;
+                    return Json(new { success = true });
+                }
+            }
+            return Json(new { success = false });
         }
 
 

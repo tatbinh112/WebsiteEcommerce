@@ -1,5 +1,4 @@
-﻿﻿﻿@model IEnumerable<WebBanGiay.Models.Cart>
-
+﻿@model IEnumerable<WebBanGiay.Models.Cart>
 
 @{
     ViewBag.Title = "Index";
@@ -8,10 +7,10 @@
     ViewBag.Tong = 0;
     WebBanGiay.Models.vietnamese_administrative_unitsEntities vn = new WebBanGiay.Models.vietnamese_administrative_unitsEntities();
     var Customer = (WebBanGiay.Models.User)HttpContext.Current.Session["Customer"];
-
 }
+
 @section Style
-    {
+{
     <style>
         /* Hide arrows in Chrome, Safari, Edge, and Opera */
         input[type="number"]::-webkit-outer-spin-button,
@@ -25,7 +24,6 @@
             -moz-appearance: textfield;
         }
     </style>
-
 }
 
 <!--================Cart Area =================-->
@@ -33,6 +31,7 @@
     <div class="container">
         <div class="cart_inner">
             <div class="table-responsive">
+                @Html.AntiForgeryToken()
                 <table class="table">
                     <thead>
                         <tr>
@@ -42,25 +41,20 @@
                             <th scope="col">Quantity</th>
                             <th scope="col">Total</th>
                             <th scope="col"></th>
-
                         </tr>
                     </thead>
                     <tbody>
                         @if (Model != null)
                         {
-
                             foreach (var item in Model)
                             {
-
-
                                 var product = new WebBanGiay.Models.WebBanGiayEntities().Products.SingleOrDefault(m => m.Product_Id == item.Product_Id);
 
-                                <tr>
-                                    <form id="Form-@item.Product_Id-@item.Size" action="~/Cart/UpdateCart" method="post">
+                                <tr id="row-@item.Product_Id-@item.Size">
                                     <td>
                                         <div class="media">
                                             <div class="d-flex">
-                                                <img style="height:100px; width:150px" src="~/Areas/Admin/Data/@product.Product_Image" />
+                                                <img style="height:150px; width:150px" src="~/Areas/Admin/Data/@product.Product_Image" />
                                             </div>
                                             <div class="media-body">
                                                 <p>@product.Product_Name</p>
@@ -81,14 +75,14 @@
                                             @{
                                                 int price = Convert.ToInt32(product.Product_Price);
                                                 string formattedPrice = price.ToString("N0", new System.Globalization.CultureInfo("vi-VN"));
-                                                <span>@formattedPrice₫</span>
+                                                <span>@formattedPrice</span>
                                             }
                                         </h5>
                                     </td>
 
                                     <td>
                                         <div class="product_count">
-                                            <input type="number" name="Quantity" id="sst-@item.Product_Id-@item.Size" maxlength="12" value="@item.Quantity" title="Quantity:" class="input-text qty">
+                                            <input type="number" name="Quantity" id="sst-@item.Product_Id-@item.Size" maxlength="12" value="@item.Quantity" title="Quantity:" class="input-text qty" data-price="@product.Product_Price" onchange="updateQuantity('@item.Product_Id', '@item.Size')">
                                             <button type="button" onclick="increaseQuantity('@item.Product_Id', '@item.Size')" class="increase items-count">
                                                 <i class="lnr lnr-chevron-up"></i>
                                             </button>
@@ -100,35 +94,32 @@
 
                                     <td>
                                         <h5>
-                                            @{
-                                                int totalPrice = Convert.ToInt32(product.Product_Price * item.Quantity);
-                                                string formattedTotalPrice = totalPrice.ToString("N0", new System.Globalization.CultureInfo("vi-VN"));
-                                                <span>@formattedTotalPrice₫</span>
-                                                ViewBag.Tong = ViewBag.Tong + totalPrice;
-                                            }
+                                            <span id="total-@item.Product_Id-@item.Size">
+                                                @{
+                                                    int totalPrice = Convert.ToInt32(product.Product_Price * item.Quantity);
+                                                    string formattedTotalPrice = totalPrice.ToString("N0", new System.Globalization.CultureInfo("vi-VN"));
+                                                    <span>@formattedTotalPrice</span>
+                                                    ViewBag.Tong = ViewBag.Tong + totalPrice;
+                                                }
+                                            </span>
                                         </h5>
                                     </td>
 
                                     <td>
                                         <h5>
-                                            <a href="#" class="genric-btn danger-border circle">Xóa</a>
+                                            <a href="#" class="genric-btn danger-border circle" onclick="removeFromCart('@item.Product_Id', '@item.Size')">Xóa</a>
                                         </h5>
                                     </td>
-                                    </form>
 
                                 </tr>
-
-
-                            }
-                        }
+                                        }
+                                                    }
                         <tr class="bottom_button">
                             <td>
                                 <a class="gray_btn" href="#">Update Cart</a>
                             </td>
-                            <td>
-                            </td>
-                            <td>
-                            </td>
+                            <td></td>
+                            <td></td>
                             <td>
                                 <div class="cupon_text d-flex align-items-center">
                                     <input type="text" placeholder="Coupon code">
@@ -139,87 +130,138 @@
                         </tr>
 
                         <tr>
-                            <td>
-                            </td>
-                            <td>
-                            </td>
+                            <td></td>
+                            <td></td>
                             <td>
                                 <h5>Subtotal</h5>
                             </td>
                             <td>
                                 <h5>
-                                    @{
-                                        int price2 = Convert.ToInt32(ViewBag.Tong);
-                                        string formattedPrice2 = price2.ToString("N0", new System.Globalization.CultureInfo("vi-VN"));
-                                        <span>@formattedPrice2₫</span>
-                                    }
-
+                                    <span id="subtotal">
+                                        @{
+                                            int price2 = Convert.ToInt32(ViewBag.Tong);
+                                            string formattedPrice2 = price2.ToString("N0", new System.Globalization.CultureInfo("vi-VN"));
+                                            <span>@formattedPrice2</span>
+                                        }
+                                    </span>
                                 </h5>
                             </td>
                         </tr>
 
                         <tr class="out_button_area">
-                            <td>
-                            </td>
-                            <td>
-                            </td>
-                            <td>
-                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td>
                                 <div class="checkout_btn_inner d-flex align-items-center">
                                     <a class="gray_btn" href="~/Shop/index">Tiếp tục mua</a>
                                     <a class="primary-btn" href="/Cart/CheckOut">Thanh toán</a>
-
-
                                 </div>
                             </td>
                         </tr>
                         <h3 class="text-danger">
                             @TempData["Message"]
                         </h3>
-
-
                     </tbody>
-
                 </table>
             </div>
         </div>
     </div>
+
     <script>
-        function increaseQuantity(productId, size) {
-            var result = document.getElementById('sst-' + productId + '-' + size);
-            if (result == null) {
-                console.log('Không có')
+        function updateQuantity(productId, size) {
+            var quantityInput = document.getElementById(`sst-${productId}-${size}`);
+            var quantity = parseInt(quantityInput.value);
+            var price = parseFloat(quantityInput.getAttribute('data-price'));
+
+            // Cập nhật tổng tiền hiển thị
+            var total = quantity * price;
+            var totalElement = document.getElementById(`total-${productId}-${size}`);
+            totalElement.innerText = formatCurrency(total) ;
+
+            // Gửi yêu cầu AJAX để cập nhật số lượng trên server
+            fetch('/Cart/UpdateQuantity', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': '@Html.AntiForgeryToken()'
+                },
+                body: JSON.stringify({ productId: productId, size: size, quantity: quantity })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) {
+                    alert('Cập nhật số lượng không thành công.');
+                }
+
+                // Cập nhật tổng giá trị subtotal
+                updateSubtotal();
+            })
+            .catch(error => console.error('Error:', error));
+        }
+        function removeFromCart(productId, size) {
+            if (!confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
                 return;
             }
-            var sst = result.value;
-            if (!isNaN(sst)) {
-                result.value++;
-                document.getElementById('Form' + productId + '-' + size).submit();
 
-            }
+            // Gửi yêu cầu AJAX để xóa sản phẩm từ giỏ hàng
+            fetch('/Cart/RemoveFromCart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify({ productId: productId, size: size })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Xóa hàng đã xóa khỏi DOM
+                        var row = document.querySelector(`#row-${productId}-${size}`);
+                        if (row) {
+                            row.remove();
+                        }
 
-            return false;
+                        // Cập nhật subtotal
+                        updateSubtotal();
+                    } else {
+                        alert('Xóa sản phẩm không thành công.');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+        function updateSubtotal() {
+            var subtotal = 0;
+            document.querySelectorAll('.product_count').forEach(function(item) {
+                var quantityInput = item.querySelector('input[name="Quantity"]');
+                var quantity = parseInt(quantityInput.value);
+                var price = parseFloat(quantityInput.getAttribute('data-price'));
+                subtotal += quantity * price;
+            });
+            var subtotalElement = document.getElementById('subtotal');
+            subtotalElement.innerText = formatCurrency(subtotal);
+        }
+
+        function formatCurrency(amount) {
+            return amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        }
+
+        function increaseQuantity(productId, size) {
+            var quantityInput = document.getElementById(`sst-${productId}-${size}`);
+            quantityInput.value = parseInt(quantityInput.value) + 1;
+            updateQuantity(productId, size);
         }
 
         function decreaseQuantity(productId, size) {
-            var result = document.getElementById('sst-' + productId + '-' + size);
-            if (result == null) {
-                console.log('Không có')
-                return;
+            var quantityInput = document.getElementById(`sst-${productId}-${size}`);
+            if (parseInt(quantityInput.value) > 1) {
+                quantityInput.value = parseInt(quantityInput.value) - 1;
+                updateQuantity(productId, size);
             }
-            var sst = result.value;
-            if (!isNaN(sst) && sst > 0) {
-                result.value--;
-                document.getElementById('Form' + productId + '-' + size).submit();
-
-            }
-
-            return false;
         }
     </script>
-
 </section>
+
 
 <!--================End Cart Area =================-->
 @section Script{
