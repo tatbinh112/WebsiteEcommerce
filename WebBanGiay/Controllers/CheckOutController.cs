@@ -74,35 +74,46 @@ namespace WebBanGiay.Controllers
 
             db.spAddOrder(model.Date, model.User_Id, model.Total_Amount, model.Discount_Id, model.Ship_Address, model.Ship_Email, model.Ship_PhoneNumber, model.Ship_Note, model.Ship_Name, maxidParam);
             int maxID = (int)maxidParam.Value;
+
+            List<Cart> cart;
+
             if (Customer != null)
             {
-
-                var cart = db.Carts.Where(c => c.User_Id == Customer.User_Id).ToList();
+                cart = db.Carts.Where(c => c.User_Id == Customer.User_Id).ToList();
                 db.Orders.Add(model);
                 foreach (var item in cart)
                 {
                     db.spAddOrderDetail(maxID, item.Product_Id, item.Quantity, item.Size);
-
-                };
+                    UpdateWarehouse(item.Product_Id ?? 0, item.Size ?? 0, item.Quantity ?? 0);
+                }
             }
             else
             {
-
-
                 var cartItem = Session["Cart"] as List<Cart>;
-                var cart = cartItem.Where(c => c.User_Id == Customer.User_Id);
+                cart = cartItem.Where(c => c.User_Id == Customer.User_Id).ToList();
                 foreach (var item in cart)
                 {
-
-
                     db.spAddOrderDetail(maxID, item.Product_Id, item.Quantity, item.Size);
-
-
-                };
+                    UpdateWarehouse(item.Product_Id ?? 0, item.Size ?? 0, item.Quantity ?? 0);
+                }
             }
-            return RedirectToAction("index", "Shop");
 
+            db.SaveChanges();
+
+            return RedirectToAction("index", "Shop");
         }
+
+        private void UpdateWarehouse(int productId, int size, int quantity)
+        {
+            var warehouseItem = db.WareHouses.SingleOrDefault(w => w.Product_Id == productId && w.Size == size);
+            if (warehouseItem != null)
+            {
+                warehouseItem.Quantity -= quantity;
+                db.Entry(warehouseItem).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+            }
+        }
+
     }
 
 
