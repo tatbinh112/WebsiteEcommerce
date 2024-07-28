@@ -1,0 +1,110 @@
+﻿﻿@model WebBanGiay.Models.Order
+
+@{
+    ViewBag.Title = "Success";
+    ViewBag.page = "Success";
+    var detail = ViewBag.Detail as List<WebBanGiay.Models.OrderDetail>;
+}
+
+
+
+<!--================Order Details Area =================-->
+<section class="order_details section_gap">
+
+    <div class="container">
+        <h3 class="title_confirmation">Thank you, your order has been placed successfully.</h3>
+        <div class="row order_d_inner">
+            <div class="col-lg-6">
+                <div class="details_item">
+                    <h4 class="title-order"> Order's Information </h4>
+                    <ul class="list">
+                        <li><a href="#"><span>Order ID</span> : @Model.Order_Id</a></li>
+                        <li><a href="#"><span>Date</span> : @Model.Date</a></li>
+                        <li><a href="#"><span>Total</span> :@String.Format("{0:N0}đ", @Model.Total_Amount)</a></li>
+                        <li><a href="#"><span>Payment methods</span> : Thanh toán khi nhận hàng</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="details_item">
+                    <h4 class="title-order">Contact/Delivery Information</h4>
+                    <ul class="list">
+                        <li><a href="#"><span>Recipient's name</span> : @Model.Ship_Name</a></li>
+                        <li><a href="#"><span>Email</span> : @Model.Ship_Email</a></li>
+                        <li><a href="#"><span>Phone number</span> : @Model.Ship_PhoneNumber</a></li>
+                        <li><a href="#"><span>Address</span> : @Model.Ship_Address</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="order_details_table">
+            <h2>Order Details</h2>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Size</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in detail)
+                        {
+                            int price = Convert.ToInt32(item.Product.Product_Price) * Convert.ToInt32(item.Quantity);
+
+                            <tr>
+                                <td>
+                                    <p>@item.Product.Product_Name</p>
+                                </td>
+                                <td>
+                                    <p>@item.Size</p>
+                                </td>
+                                <td>
+                                    <h5>x @item.Quantity</h5>
+                                </td>
+                                <td>
+                                    <p>@String.Format("{0:N0}đ", @price)</p>
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td>
+                                <h4>Total Payment</h4>
+                            </td>
+                            <td>
+                                <h4></h4>
+                            </td>
+                            <td>
+                                <h5></h5>
+                            </td>
+                            <td>
+                                <p>@String.Format("{0:N0}đ", @Model.Total_Amount)</p>
+                            </td>
+                        </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+    }
+    .title_confirmation {
+        font-size: 24px; /* Tăng kích thước chữ cho tiêu đề */
+        font-weight: bold; /* Đậm chữ */
+        margin-bottom: 15px; /* Khoảng cách dưới tiêu đề */
+        color: #343a40; /* Màu chữ */
+        font-family: 'Arial', sans-serif; /* Đặt font chữ */
+    }
+    .title-order {
+        font-family: 'Arial', sans-serif;
+    }
+</style>
+<!--================End Order Details Area =================-->

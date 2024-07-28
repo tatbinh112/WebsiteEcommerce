@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "ProfileCustomer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Customer = (WebBanGiay.Models.User)HttpContext.Current.Session["Customer"];
+    ViewBag.page = "Profile";
+    var CustomerA = new WebBanGiay.Models.User();
+    int? spent = ViewBag.TotalSpent ?? 0;
+
+    if (Customer != null)
+    {
+        CustomerA = Customer;
+    }
+}
+<div class="container1">
+    <div class="card mb-4">
+        <h5 class="card-header">Customer information</h5>
+        <hr class="my-0">
+        <div class="card-body">
+            <form id="formAccountSettings" action="Update" method="POST">
+                <div class="row">
+                    <input type="hidden" name="User_Id" value="@CustomerA.User_Id" />
+                    <div class="mb-3 col-md-6">
+                        <label for="firstName" class="form-label">Full Name</label>
+                        <input class="form-control" type="text" id="firstName" name="Name" value="@CustomerA.Name" placeholder="Full name">
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <label for="zipCode" class="form-label">Amount Spent</label>
+                        <input type="text" class="form-control" id="zipCode" value="@String.Format("{0:N0}đ",@spent)" readonly>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <label for="email" class="form-label">E-mail</label>
+                        <input class="form-control" type="text" id="email" name="Email" value="@CustomerA.Email" placeholder="Email">
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <label class="form-label" for="phoneNumber">Phone Number</label>
+                        <div class="input-group input-group-merge">
+                            <input type="text" id="phoneNumber" name="Phone_Number" class="form-control" value="@CustomerA.Phone_Number" placeholder="Phone Number">
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <a href="#" onclick="confirmSubmit(); return false;" class="genric-btn primary circle">Update</a>
+                </div>
+            </form>
+        </div>
+        <!-- /Account -->
+    </div>
+</div>
+<style>
+    /* Đảm bảo container có khoảng cách và căn giữa nội dung */
+    .container1 {
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+        flex-direction: column;
+        align-items: center;
+    }
+</style>
+
+    @section Script{
+        <script>
+            function confirmSubmit() {
+                if (confirm('Do you want to change?')) {
+                    document.getElementById('formAccountSettings').submit();
+                } else {
+                    // Người dùng chọn "Không", không làm gì cả để ở lại trang
+                }
+            }
+        </script>
+    }

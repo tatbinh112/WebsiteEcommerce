@@ -10,20 +10,20 @@
     <div class="card">
         <div class="card-body">
             <div class="order-info">
-                <h5 class="info-title">Thông Tin Đơn Hàng</h5>
+                <h5 class="info-title">Order's Information</h5>
                 <hr />
                 <div class="row">
                     <div class="col-md-6">
-                        <p><strong class="label">Ngày đặt hàng:</strong> @ViewBag.Order.Date.ToString("dd/MM/yyyy")</p>
-                        <p><strong class="label">Tổng tiền:</strong>@String.Format("{0:N0}đ", @ViewBag.Order.Total_Amount)</p>
+                        <p><strong class="label">Date:</strong> @ViewBag.Order.Date.ToString("dd/MM/yyyy")</p>
+                        <p><strong class="label">Total Amount:</strong>@String.Format("{0:N0}đ", @ViewBag.Order.Total_Amount)</p>
                     </div>
                     <div class="col-md-6">
-                        <p><strong class="label">Địa chỉ giao hàng:</strong> @ViewBag.Order.Ship_Address</p>
+                        <p><strong class="label">Address:</strong> @ViewBag.Order.Ship_Address</p>
                         <p>
-                            <strong class="label">Tình trạng:</strong>
+                            <strong class="label">Status:</strong>
                             @{
                                 var statusClass = @ViewBag.Order.Status == 1 ? "badge-success" : "badge-warning";
-                                var statusText = @ViewBag.Order.Status == 1 ? "Đã xác nhận" : "Chưa xác nhận";
+                                var statusText = @ViewBag.Order.Status == 1 ? "Confirmed" : "Unconfimred";
                             }
                             <span class="badge @statusClass">@statusText</span>
                         </p>
@@ -32,15 +32,15 @@
             </div>
 
             <div class="order-details mt-4">
-                <h5 class="info-title">Chi tiết sản phẩm</h5>
+                <h5 class="info-title">Products Detail</h5>
                 <table class="styled-table">
                     <thead>
                         <tr>
-                            <th>Tên sản phẩm</th>
-                            <th>Số lượng</th>
-                            <th>Kích cỡ</th>
-                            <th>Đơn Giá</th>
-                            <th>Tổng Tiền</th>
+                            <th>Name</th>
+                            <th>Quantity</th>
+                            <th>Size</th>
+                            <th>Price</th>
+                            <th>Total</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -64,7 +64,7 @@
 
             <!-- Thêm liên kết quay về trang Index -->
             <div class="mt-4">
-                <a href="@Url.Action("Index", "Order")" class="btn btn-orange">Quay về danh sách đơn hàng</a>
+                <a href="@Url.Action("Index", "Order")" class="btn btn-orange">Return To Order</a>
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-﻿﻿﻿@model IEnumerable<WebBanGiay.Models.Cart>
+﻿﻿﻿﻿@model IEnumerable<WebBanGiay.Models.Cart>
 
 @{
     ViewBag.Title = "Index";
@@ -7,7 +7,14 @@
     var Provinces = vn.provinces.ToList();
     int TongTien = 0;
     var Customer = (WebBanGiay.Models.User)HttpContext.Current.Session["Customer"];
-    int? ID = Customer.User_Id;
+    int? ID = 0;
+    if (Customer != null)
+    {
+        ID = Customer.User_Id;
+
+    }
+
+
 }
 @section Style{
     <style>
@@ -48,40 +55,45 @@
     <div class="container">
         <div class="returning_customer">
             <div class="check_title">
-                <h2>Returning Customer? <a href="javascript:void(0);">Click here to login</a></h2>
+                <h2>Returning Customer? <a javascript:void(0);>Click here to login</a></h2>
             </div>
             <p>
                 If you have shopped with us before, please enter your details in the boxes below. If you are a new
                 customer, please proceed to the Billing & Shipping section.
             </p>
+
         </div>
         <div class="cupon_area">
             <div class="check_title">
-                <h2>Have a coupon? <a href="javascript:void(0);">Click here to enter your code</a></h2>
+                <h2>Have a coupon? <a javascript:void(0);>Click here to enter your code</a></h2>
             </div>
             <input type="text" placeholder="Enter coupon code">
-            <a class="tp_btn" href="javascript:void(0);">Apply Coupon</a>
+            <a class="tp_btn" javascript:void(0);>Apply Coupon</a>
         </div>
         <div class="billing_details">
             <form class="row contact_form" action="CheckOut/Payment" method="post" novalidate="novalidate">
+
                 <div class="row">
                     <div class="col-lg-8">
-                        <h3>Thông tin thanh toán</h3>
+                        <h3>Payment Information</h3>
                         <div class="col-md-12 form-group p_star">
-                            <input type="text" class="form-control" id="first" name="Ship_Name" placeholder="Họ và tên">
+                            <input type="text" class="form-control" id="first" name="Ship_Name" placeholder="First and last name">
                         </div>
+
+
                         <div class="col-md-6 form-group p_star">
-                            <input type="text" class="form-control" id="number" name="Ship_PhoneNumber" placeholder="Số điện thoại">
+                            <input type="text" class="form-control" id="number" name="Ship_PhoneNumber" placeholder="Phone number">
                         </div>
                         <div class="col-md-6 form-group p_star">
                             <input type="email" class="form-control" id="email" name="Ship_Email" placeholder="Email">
                         </div>
-                        <div class="col-md-12 form-group p_star">
+                        @*<div class="col-md-12 form-group p_star">
                             <select id="province" class="country_select">
                                 <option value="">Chọn tỉnh</option>
                                 @foreach (var i in Provinces)
                                 {
                                     <option value="@i.code">@i.full_name</option>
+
                                 }
                             </select>
                         </div>
@@ -94,29 +106,35 @@
                             <select id="ward" class="country_select">
                                 <option value="">Chọn phường</option>
                             </select>
-                        </div>
+                        </div>*@
                         <div class="col-md-12 form-group p_star">
-                            <input type="text" class="form-control" id="add1" name="Ship_Address" placeholder="Địa chỉ nhận hàng">
+                            <input type="text" class="form-control" id="add1" name="Ship_Address" placeholder="Delivery address">
                         </div>
+
+
+
+
                         <div class="col-md-12 form-group">
                             <div class="creat_account">
-                                <h3>Ghi chú</h3>
+                                <h3>Note</h3>
                             </div>
-                            <textarea class="form-control" name="Ship_Note" id="message" rows="1" placeholder="Ghi chú đơn hàng"></textarea>
+                            <textarea class="form-control" name="Ship_Note" id="message" rows="1" placeholder="Order notes"></textarea>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="order_box">
-                            <h2>Đơn hàng của bạn</h2>
+                            <h2>Your order</h2>
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Sản phẩm</th>
-                                        <th>Số lượng</th>
-                                        <th>Tổng tiền</th>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+
+
                                     @foreach (var item in Model)
                                     {
                                         <tr>
@@ -126,36 +144,51 @@
                                                 TongTien += total;
                                                 string formattedPrice1 = total.ToString("N0", new System.Globalization.CultureInfo("vi-VN"));
                                             }
+
                                             <td style="width: 50%">@product.Product_Name</td>
                                             <td style="width: 25%; text-align: center;">@item.Quantity</td>
                                             <td style="width: 25%">@formattedPrice1₫</td>
                                         </tr>
+
+
+
                                     }
+
                                 </tbody>
+
                             </table>
+
+
                             <ul class="list list_2">
+                                @*<li><a javascript:void(0);>Subtotal <span>$2160.00</span></a></li>
+                                    <li><a javascript:void(0);>Shipping <span>Flat rate: $50.00</span></a></li>*@
+
                                 @{string formattedPrice2 = TongTien.ToString("N0", new System.Globalization.CultureInfo("vi-VN")); }
-                                <li><a href="javascript:void(0);">Tổng thanh toán<span>@formattedPrice2₫</span></a></li>
+                                <li><a javascript:void(0);>Total payment<span>@formattedPrice2₫</span></a></li>
                             </ul>
-                            <input type="hidden" name="Total_Amount" value="@TongTien" />
                             <div class="payment_item">
                                 <div class="radion_btn">
                                     <input type="radio" id="f-option5" name="selector">
-                                    <label for="f-option5">Thanh toán khi nhận hàng</label>
+                                    <label for="f-option5">Payment on delivery</label>
                                     <div class="check"></div>
                                 </div>
-                                <p>Bạn sẽ thanh toán khi đơn hàng được gửi tới bạn</p>
+                                <p>
+                                    You will pay when your order is sent to you
+                                </p>
                             </div>
                             <div class="payment_item active">
                                 <div class="radion_btn">
                                     <input type="radio" id="f-option6" name="selector">
-                                    <label for="f-option6">Chuyển khoản </label>
+                                    <label for="f-option6">Transfer</label>
                                     <img src="img/product/card.jpg" alt="">
                                     <div class="check"></div>
                                 </div>
-                                <p>Chuyển khoản bằng tài khoản ngân hàng</p>
+                                <p>
+                                    Transfer money using bank account
+                                </p>
                             </div>
-                            <button type="submit" class="primary-btn" href="javascript:void(0);">Thanh toán</button>
+
+                            <button type="submit" class="primary-btn" javascript:void(0);>Payment</button>
                         </div>
                     </div>
                 </div>
@@ -163,12 +196,21 @@
         </div>
     </div>
 </section>
-@section Script{
+<!--================End Checkout Area =================-->
+
+
+
+@section Script
+    {
+
     <script>
-        $(document).ready(function () {
+        $(.search_input).remove();
+        $(document).ready(function ($) {
+            // Khi người dùng chọn một tỉnh
             $('#province').change(function () {
                 var provinceCode = $("#province").val();
                 console.log("Province selected: " + provinceCode);
+
                 $.ajax({
                     url: "/CheckOut/GetDistricts",
                     type: "GET",
@@ -179,6 +221,7 @@
                         $("#district").append("<option value=''>Chọn quận</option>");
                         $("#ward").empty();
                         $("#ward").append("<option value=''>Chọn Phường</option>");
+
                         $.each(data, function (index, row) {
                             $("#district").append("<option value='" + row.code + "'>" + row.full_name + "</option>");
                         });
@@ -188,9 +231,11 @@
                     }
                 });
             });
+
             $('#district').change(function () {
                 var districtCode = $("#district").val();
                 console.log("District selected: " + districtCode);
+
                 $.ajax({
                     url: "/CheckOut/GetWards",
                     type: "GET",
@@ -198,8 +243,52 @@
                     success: function (data) {
                         console.log("Data received for wards:", data);
                         $("#ward").empty();
-                        $("#ward").append("<option value=''>Chọn Phường</option>")
+                        $("#ward").append("<option value=''>Chọn Phường</option>");
+
+                        $.each(data, function (index, row) {
+                            $("#ward").append("<option value='" + row.code + "'>" + row.full_name + "</option>");
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error occurred while fetching wards:", error);
                     }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Khi người dùng chọn một tỉnh
+            $('#province').change(function () {
+
+                $.get("/CheckOut/GetDistricts", { province_code: $("#province").val() }, function (data) {
+                    $("#district").empty();
+                    $("#district").append("<option value=''>Chọn quận</option>")
+                    $("#ward").empty();
+                    $("#ward").append("<option value=''>Chọn Phường</option>")
+
+                    $.each(data, function (index, row) {
+                        $("#district").append("<option value='" + row.code + "'>" + row.full_name + "</option>")
+                    })
+                });
+            })
+            $('#district').change(function () {
+
+                $.get("/CheckOut/GetWards", { district_code: $("#district").val() }, function (data) {
+                    console.log($("#district").val())
+                    $("#ward").empty();
+                    $("#ward").append("<option value=''>Chọn Phường</option>")
+
+                    $.each(data, function (index, row) {
+                        $("#ward").append("<option value='" + row.code + "'>" + row.full_name + "</option>")
+                        console.log("<option value='" + row.code + "'>" + row.full_name + "</option>")
+                    })
+                });
+            })
+        });
+
+
 
 
 

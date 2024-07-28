@@ -1,4 +1,4 @@
-﻿﻿
+﻿﻿﻿
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,22 +9,22 @@
         <div class="row">
             <div style="margin:auto" class="col-lg-6">
                 <div class="login_form_inner">
-                    <h3>Đăng ký</h3>
+                    <h3>Register</h3>
                     <form class="row login_form" action="Create" method="post" id="registerForm" novalidate>
                         <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="user_name" name="User_Name" placeholder="Tên đăng nhập" autocomplete="off" required>
+                            <input type="text" class="form-control" id="user_name" name="User_Name" placeholder="Username" autocomplete="off" required>
                         </div>
                         <p class="text-danger">@TempData["user"] </p>
                         <div class="col-md-12 form-group">
-                            <input type="password" class="form-control" id="Password" name="Pass_Word" placeholder="Mật khẩu" autocomplete="off" required>
+                            <input type="password" class="form-control" id="Password" name="Pass_Word" placeholder="Password" autocomplete="off" required>
                         </div>
                         <div class="col-md-12 form-group">
-                            <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword" placeholder="Nhập lại mật khẩu" autocomplete="off" required>
-                            <p id="passwordError" class="text-danger" style="display: none;">Mật khẩu không trùng khớp</p>
+                            <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword" placeholder="Repeat Password" autocomplete="off" required>
+                            <p id="passwordError" class="text-danger" style="display: none;">Passwords do not match</p>
                         </div>
 
                         <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="Phone" name="Phone_Number" placeholder="Số điện thoại" autocomplete="off" required>
+                            <input type="text" class="form-control" id="Phone" name="Phone_Number" placeholder="Phone number" autocomplete="off" required>
                             <p class="text-danger">@TempData["phone"] </p>
 
                         </div>
@@ -33,10 +33,10 @@
                             <p class="text-danger">@TempData["email"] </p>
 
                         </div>
-
+                        <input type="hidden" name="Type" value="2"
 
                         <div class="col-md-12 form-group">
-                            <button type="submit" value="submit" class="primary-btn">Đăng ký</button>
+                            <button type="submit" value="submit" class="primary-btn">Register</button>
                         </div>
                     </form>
                 </div>

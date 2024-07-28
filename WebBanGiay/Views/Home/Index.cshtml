@@ -149,8 +149,8 @@
                                             @item.Product_Name
                                         </h6>
                                         <div class="price">
-                                            <h6>@item.Product_Price</h6>
-                                            <h6 class="l-through">@item.Product_Price</h6>
+                                            <h6>@String.Format("{0:N0}đ", @item.Product_Price)</h6>
+                                            <h6 class="l-through">@String.Format("{0:N0}đ", Convert.ToInt32(@item.Product_Price*1.2))</h6>
                                         </div>
                                         <div class="prd-bottom">
 
@@ -202,8 +202,8 @@
                                     for Sports person
                                 </h6>
                                 <div class="price">
-                                    <h6>$150.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
+                                    <h6>3.650.000đ</h6>
+                                    <h6 class="l-through">@String.Format("{0:N0}đ", 3650000 * 1.2))</h6>
                                 </div>
                                 <div class="prd-bottom">
 
@@ -508,7 +508,7 @@
                             </div>
                         </div>
                     </div>
-                    <a href="" class="primary-btn">Shop Now</a>
+                    <a href="~/Shop/Index" class="primary-btn">Shop Now</a>
                 </div>
                 <div class="col-lg-6 no-padding exclusive-right">
                     <div class="active-exclusive-product-slider">
@@ -517,8 +517,8 @@
                             <img class="img-fluid" src="~/Content/assets/img/product/e-p1.png" alt="">
                             <div class="product-details">
                                 <div class="price">
-                                    <h6>$150.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
+                                    <h6>3,650,000đ</h6>
+                                    <h6 class="l-through">@String.Format("{0:N0}đ", Convert.ToInt32(3650000 * 1.2))</h6>
                                 </div>
                                 <h4>
                                     addidas New Hammer sole
@@ -535,8 +535,8 @@
                             <img class="img-fluid" src="~/Content/assets/img/product/e-p1.png" alt="">
                             <div class="product-details">
                                 <div class="price">
-                                    <h6>$150.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
+                                    <h6>3,650,000đ</h6>
+                                    <h6 class="l-through">@String.Format("{0:N0}đ", Convert.ToInt32(3650000 * 1.2))</h6>
                                 </div>
                                 <h4>
                                     addidas New Hammer sole

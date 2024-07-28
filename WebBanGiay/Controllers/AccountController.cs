@@ -28,7 +28,7 @@ namespace WebBanGiay.Controllers
             }
             else
             {
-                TempData["error"] = "Tên đăng nhập hoặc mật khẩu không chính xác";
+                TempData["error"] = "Username or Password incorrect";
                 return View();
 
             }
@@ -45,19 +45,19 @@ namespace WebBanGiay.Controllers
             if (username > 0)
             {
                 check = false;
-                TempData["user"] = "Tên đăng nhập đã tồn tại";
+                TempData["user"] = "Username already exists";
             }
             int sdt = db.Users.Count(u => u.Phone_Number == model.Phone_Number);
             if (sdt > 0)
             {
                 check = false;
-                TempData["phone"] = "Số điện thoại đã tồn tại";
+                TempData["phone"] = "Phone number already exists";
             }
             int mail = db.Users.Count(u => u.Email == model.Email);
             if (mail > 0)
             {
                 check = false;
-                TempData["email"] = "Email đã tồn tại";
+                TempData["email"] = "Email already exists";
             }
 
             if (check)
@@ -69,6 +69,19 @@ namespace WebBanGiay.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult Update(User model)
+        {
+            var user = db.Users.SingleOrDefault(m => m.User_Id == model.User_Id);
+            user.Name = model.Name;
+            user.Email = model.Email;
+            user.Phone_Number = model.Phone_Number;
+            db.SaveChanges();
+            Session["Customer"] = user;
+
+            return RedirectToAction("ProfileCustomer");
+
+        }
         public ActionResult Logout()
         {
             Session.Remove("Customer");
@@ -77,7 +90,19 @@ namespace WebBanGiay.Controllers
         }
         public ActionResult ProfileCustomer()
         {
-            return View();
+            var Customer = Session["Customer"] as User;
+            if (Customer != null)
+            {
+                var orders = db.Orders.Where(o => o.User_Id == Customer.User_Id).ToList();
+                int? totalSpent = orders.Sum(o => o.Total_Amount);
+                ViewBag.TotalSpent = totalSpent;
+            }
+            else
+            {
+                ViewBag.TotalSpent = 0;
+            }
+            return View(Customer);
         }
+
     }
 }

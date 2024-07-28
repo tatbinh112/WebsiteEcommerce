@@ -1,4 +1,4 @@
-﻿﻿﻿@using PagedList.Mvc;
+﻿﻿﻿﻿@using PagedList.Mvc;
 @using PagedList;
 @using System.Linq;
 
@@ -123,10 +123,10 @@
 
                         }
                         <select name="sortOrder" onchange="this.form.submit()">
-                            <option value="name" @(ViewBag.CurrentSort == "name" ? "selected" : "")>Tên: A-Z</option>
-                            <option value="name_desc" @(ViewBag.CurrentSort == "name_desc" ? "selected" : "")>Tên: Z-A</option>
-                            <option value="price" @(ViewBag.CurrentSort == "price" ? "selected" : "")>Giá: Tăng dần</option>
-                            <option value="price_desc" @(ViewBag.CurrentSort == "price_desc" ? "selected" : "")>Giá: Giảm dần</option>
+                            <option value="name" @(ViewBag.CurrentSort == "name" ? "selected" : "")>Name: A-Z</option>
+                            <option value="name_desc" @(ViewBag.CurrentSort == "name_desc" ? "selected" : "")>Name: Z-A</option>
+                            <option value="price" @(ViewBag.CurrentSort == "price" ? "selected" : "")>Price: Higher</option>
+                            <option value="price_desc" @(ViewBag.CurrentSort == "price_desc" ? "selected" : "")>Price: Lower</option>
                         </select>
                     </form>
                 </div>
@@ -195,7 +195,7 @@
                                             </div>
                                             <div class="prd-bottom">
 
-                                                <a href="" class="social-info">
+                                                <a href="javascript:void(0);" class="addToCartBtn social-info" data-product-id="@item.Product_Id">
                                                     <span class="ti-bag"></span>
                                                     <p class="hover-text">add to bag</p>
                                                 </a>
@@ -203,7 +203,7 @@
                                                     <span class="lnr lnr-heart"></span>
                                                     <p class="hover-text">Wishlist</p>
                                                 </a>
-                                                <a href="@Url.Action("ChiTiet", "Shop", new { id = item.Product_Id })" class="social-info">
+                                                <a href="@Url.Action("ChiTiet", "Shop", new { id = item.Product_Id})" class="social-info">
                                                     <span class="lnr lnr-move"></span>
                                                     <p class="hover-text">view more</p>
                                                 </a>
@@ -234,10 +234,10 @@
                             }
                         }
                         <select name="sortOrder" onchange="this.form.submit()">
-                            <option value="name" @(ViewBag.CurrentSort == "name" ? "selected" : "")>Tên: A-Z</option>
-                            <option value="name_desc" @(ViewBag.CurrentSort == "name_desc" ? "selected" : "")>Tên: Z-A</option>
-                            <option value="price" @(ViewBag.CurrentSort == "price" ? "selected" : "")>Giá: Tăng dần</option>
-                            <option value="price_desc" @(ViewBag.CurrentSort == "price_desc" ? "selected" : "")>Giá: Giảm dần</option>
+                            <option value="name" @(ViewBag.CurrentSort == "name" ? "selected" : "")>Name: A-Z</option>
+                            <option value="name_desc" @(ViewBag.CurrentSort == "name_desc" ? "selected" : "")>Name: Z-A</option>
+                            <option value="price" @(ViewBag.CurrentSort == "price" ? "selected" : "")>Price: Higher</option>
+                            <option value="price_desc" @(ViewBag.CurrentSort == "price_desc" ? "selected" : "")>Price: Lower</option>
                         </select>
                     </form>
                 </div>
@@ -314,4 +314,28 @@
         window.onload = initializeSelectedCategories;
         console.log(selectedCategories)
     </script>
+    <script>
+        $(document).ready(function () {
+            $('.addToCartBtn').click(function () {
+                var productId = $(this).data('product-id');
+
+                $.ajax({
+                    url: '/Cart/AddToCart2',
+                    type: 'POST',
+                    data: { productId: productId },
+                    success: function (response) {
+                        if (response.success) {
+                            alert('Product added to cart successfully!');
+                        } else {
+                            alert('Failed to add product to cart.');
+                        }
+                    },
+                    error: function () {
+                        alert('Error occurred while adding product to cart.');
+                    }
+                });
+            });
+        });
+    </script>
+
 }

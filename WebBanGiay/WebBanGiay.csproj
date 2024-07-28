@@ -535,14 +535,16 @@
     <Content Include="Content\assets\img\features\f-icon2.png" />
     <Content Include="Content\assets\img\features\f-icon3.png" />
     <Content Include="Content\assets\img\features\f-icon4.png" />
-    <Content Include="Content\assets\img\i1.jpg" />
-    <Content Include="Content\assets\img\i2.jpg" />
-    <Content Include="Content\assets\img\i3.jpg" />
-    <Content Include="Content\assets\img\i4.jpg" />
+    <Content Include="Content\assets\img\i1.png" />
+    <Content Include="Content\assets\img\i2.png" />
+    <Content Include="Content\assets\img\i3.png" />
+    <Content Include="Content\assets\img\i4.png" />
     <Content Include="Content\assets\img\i5.jpg" />
-    <Content Include="Content\assets\img\i6.jpg" />
-    <Content Include="Content\assets\img\i7.jpg" />
-    <Content Include="Content\assets\img\i8.jpg" />
+    <Content Include="Content\assets\img\i5.png" />
+    <Content Include="Content\assets\img\i6.png" />
+    <Content Include="Content\assets\img\i7.png" />
+    <Content Include="Content\assets\img\i8.png" />
+    <Content Include="Content\assets\img\i9.png" />
     <Content Include="Content\assets\img\l1.jpg" />
     <Content Include="Content\assets\img\l2.jpg" />
     <Content Include="Content\assets\img\l3.jpg" />
@@ -1187,6 +1189,8 @@
     <Content Include="Views\CheckOut\Index.cshtml" />
     <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\Order\Details.cshtml" />
+    <Content Include="Views\Account\ProfileCustomer.cshtml" />
+    <Content Include="Views\CheckOut\Success.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

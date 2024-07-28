@@ -17,6 +17,7 @@
     <meta name="keywords" content="">
     <!-- meta character set -->
     <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <!-- Site Title -->
     <title>Sneak Shop</title>
     <!--
@@ -55,38 +56,45 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                         <ul class="nav navbar-nav menu_nav ml-auto">
-                            <li class="nav-item @Html.Raw(ViewBag.Page == "Home" ? "active":"")"><a class="nav-link" href="~/Home/Index">Trang Chủ</a></li>
+                            <li class="nav-item @Html.Raw(ViewBag.Page == "Home" ? "active":"")"><a class="nav-link" href="~/Home/Index">Home</a></li>
                             <li class="nav-item @Html.Raw(ViewBag.Page == "Shop" ? "active":"")">
                                 <a href="~/Shop/Index" class="nav-link dropdown-toggle">Shop</a>
                             </li>
                             <li class="nav-item submenu dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                   aria-expanded="false">Bài Viết</a>
+                                   aria-expanded="false">Blog</a>
                                 <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" href="blog.html">Bài Viết</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
                                     <li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item submenu dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                   aria-expanded="false">Trang Web</a>
+                                   aria-expanded="false">Website</a>
                                 <ul class="dropdown-menu">
                                     <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
                                     <li class="nav-item"><a class="nav-link" href="tracking.html">Tracking</a></li>
                                     <li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>
                                 </ul>
                             </li>
-                            <li class="nav-item"><a class="nav-link" href="~/Contact/Index">Liên Hệ</a></li>
+                            <li class="nav-item"><a class="nav-link" href="~/Contact/Index">Contact</a></li>
                             @{
                                 if (Customer == null)
                                 {
-                                    <li class="nav-item"><a class="nav-link" href="~/Account/Login">Đăng nhập</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="~/Account/Login">Log In</a></li>
 
                                 }
                                 else
                                 {
-                                    <li class="nav-item"><a class="nav-link" href="#">Hello, @Customer.Name</a></li>
-
+                                    <li class="nav-item submenu dropdown">
+                                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                           aria-expanded="false">@Customer.Name</a>
+                                        <ul class="dropdown-menu">
+                                            <li class="nav-item"><a class="nav-link" href="~/Account/ProfileCustomer">Profile Account</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="~/Order/Index">Order</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="~/Account/Logout">Log Out</a></li>
+                                        </ul>
+                                    </li>
                                 }
                             }
                         </ul>
@@ -129,8 +137,9 @@
                                         <div class="banner-content">
                                             <h1>Nike New <br>Collection!</h1>
                                             <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
+                                                Introducing Nike's latest innovation in footwear: the Nike AirMax Pro.
+                                                Designed for both performance and style, this new addition to the Nike family 
+                                                features cutting-edge technology to enhance your athletic experience. 
                                             </p>
                                             <div class="add-bag d-flex align-items-center">
                                                 <a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
@@ -150,8 +159,9 @@
                                         <div class="banner-content">
                                             <h1>Nike New <br>Collection!</h1>
                                             <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
+                                                Introducing Nike's latest innovation in footwear: the Nike AirMax Pro.
+                                                Designed for both performance and style, this new addition to the Nike family
+                                                features cutting-edge technology to enhance your athletic experience.
                                             </p>
                                             <div class="add-bag d-flex align-items-center">
                                                 <a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
@@ -177,11 +187,10 @@
                 <div class="container">
                     <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
                         <div class="col-first">
-                            <h1>Shop Category page</h1>
+                            <h1>Shop</h1>
                             <nav class="d-flex align-items-center">
                                 <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-                                <a href="#">Shop<span class="lnr lnr-arrow-right"></span></a>
-                                <a href="category.html">Fashon Category</a>
+                                <a href="#">Shop</a>
                             </nav>
                         </div>
                     </div>
@@ -254,6 +263,40 @@
             </section>
 
         }
+        else if (ViewBag.page == "Profile")
+        {
+            <section class="banner-area organic-breadcrumb">
+                <div class="container">
+                    <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                        <div class="col-first">
+                            <h1>Account Profile</h1>
+                            <nav class="d-flex align-items-center">
+                                <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+                                <a href="category.html">Account</a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        }
+        else if (ViewBag.page == "Success")
+        {
+            <section class="banner-area organic-breadcrumb">
+                <div class="container">
+                    <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                        <div class="col-first">
+                            <h1>Order Success</h1>
+                            <nav class="d-flex align-items-center">
+                                <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+                                <a href="category.html">CheckOut</a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        }
     }
     <!-- End banner Area -->
     <!-- start features Area -->
@@ -266,8 +309,8 @@
                     <div class="single-footer-widget">
                         <h6>About Us</h6>
                         <p>
-                            Hai bạn trẻ đi thực tập tốt nghiệp
-                            nên làm ra trang web này
+                            Two young men were doing internships
+                            so they created this website
                         </p>
                     </div>
                 </div>
@@ -304,14 +347,14 @@
                     <div class="single-footer-widget mail-chimp">
                         <h6 class="mb-20">Instragram Feed</h6>
                         <ul class="instafeed d-flex flex-wrap">
-                            <li><img src="~/Content/assets/img/i1.jpg" alt=""></li>
-                            <li><img src="~/Content/assets/img/i2.jpg" alt=""></li>
-                            <li><img src="~/Content/assets/img/i3.jpg" alt=""></li>
-                            <li><img src="~/Content/assets/img/i4.jpg" alt=""></li>
-                            <li><img src="~/Content/assets/img/i5.jpg" alt=""></li>
-                            <li><img src="~/Content/assets/img/i6.jpg" alt=""></li>
-                            <li><img src="~/Content/assets/img/i7.jpg" alt=""></li>
-                            <li><img src="~/Content/assets/img/i8.jpg" alt=""></li>
+                            <li><img href="https://www.instagram.com/bonbayka._.haimot/" style="width :58px; height: 58px" src="~/Content/assets/img/i1.png" alt=""></li>
+                            <li><img href="https://www.instagram.com/bonbayka._.haimot/" style="width :58px; height: 58px" src="~/Content/assets/img/i2.png" alt=""></li>
+                            <li><img href="https://www.instagram.com/bonbayka._.haimot/" style="width :58px; height: 58px" src="~/Content/assets/img/i3.png" alt=""></li>
+                            <li><img href="https://www.instagram.com/bonbayka._.haimot/" style="width :58px; height: 58px" src="~/Content/assets/img/i4.png" alt=""></li>
+                            <li><img href="https://www.instagram.com/bonbayka._.haimot/" style="width :58px; height: 58px" src="~/Content/assets/img/i9.png" alt=""></li>
+                            <li><img href="https://www.instagram.com/bonbayka._.haimot/" style="width :58px; height: 58px" src="~/Content/assets/img/i6.png" alt=""></li>
+                            <li><img href="https://www.instagram.com/bonbayka._.haimot/" style="width :58px; height: 58px" src="~/Content/assets/img/i7.png" alt=""></li>
+                            <li><img href="https://www.instagram.com/bonbayka._.haimot/" style="width :58px; height: 58px" src="~/Content/assets/img/i5.png" alt=""></li>
                         </ul>
                     </div>
                 </div>

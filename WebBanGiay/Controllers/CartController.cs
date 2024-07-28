@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Antlr.Runtime;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -75,7 +76,97 @@ namespace WebBanGiay.Controllers
                 }
                 return RedirectToAction("Index");
             }
+
+
         }
+
+
+
+        [HttpPost]
+        public JsonResult AddToCart2(int productId)
+        {
+
+            var Customer = Session["Customer"] as User;
+
+            int size;
+
+            var smallestSize = db.WareHouses
+                                     .Where(w => w.Product_Id == productId && w.Quantity > 0)
+                                     .OrderBy(w => w.Size)
+                                     .FirstOrDefault();
+
+            if (smallestSize != null)
+            {
+                size = Convert.ToInt32(smallestSize.Size);
+            }
+            else
+            {
+                return Json(new { success = false, message = "There are no valid sizes in stock." });
+            }
+
+
+
+            int quantity = 1;
+
+            if (Customer != null)
+            {
+                var existingCartItem = db.Carts.FirstOrDefault(c => c.User_Id == Customer.User_Id && c.Product_Id == productId && c.Size == size);
+                if (existingCartItem != null)
+                {
+                    existingCartItem.Quantity += quantity;
+                }
+                else
+                {
+                    var cart = new Cart
+                    {
+                        User_Id = Customer.User_Id,
+                        Product_Id = productId,
+                        Size = size,
+                        Quantity = quantity
+                    };
+                    db.Carts.Add(cart);
+                }
+                db.SaveChanges();
+            }
+            // Trường hợp người dùng chưa đăng nhập
+            else
+            {
+                var cart = new Cart
+                {
+                    User_Id = null,
+                    Product_Id = productId,
+                    Size = size,
+                    Quantity = quantity
+                };
+                var Carts = new List<Cart>();
+                if (Session["Cart"] == null)
+                {
+
+                    Carts.Add(cart);
+                    Session["Cart"] = Carts;
+                }
+                else
+                {
+                    Carts = Session["Cart"] as List<Cart>;
+
+                    // Kiểm tra sản phẩm có tồn tại không
+                    var cartItem = Carts.FirstOrDefault(c => c.Product_Id == productId && c.Size == size);
+                    if (cartItem != null)
+                    {
+                        cartItem.Quantity += quantity;
+                    }
+                    else
+                    {
+                        Carts.Add(cart);
+                    }
+                    Session["Cart"] = Carts;
+                }
+            }
+
+            return Json(new { success = true });
+        }
+
+
         [HttpPost]
         public JsonResult UpdateQuantity(int productId, int size, int quantity)
         {
@@ -148,7 +239,7 @@ namespace WebBanGiay.Controllers
                 if (cart == null || !cart.Any())
                 {
                     TempData["CartData"] = cart; // Lưu dữ liệu vào TempData
-                    TempData["Message"] = "Yêu cầu thêm sản phẩm vào giỏ hàng.";
+                    TempData["Message"] = "Request to add the product to the cart.";
                     return RedirectToAction("Index");
                 }
                 else
@@ -163,7 +254,7 @@ namespace WebBanGiay.Controllers
 
                 if (cart == null || !cart.Any())
                 {
-                    TempData["Message"] = "Yêu cầu thêm sản phẩm vào giỏ hàng.";
+                    TempData["Message"] = "Request to add the product to the cart.";
                     return RedirectToAction("Index");
                 }
                 else

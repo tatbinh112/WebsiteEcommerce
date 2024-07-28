@@ -11,11 +11,11 @@
     <table class="styled-table">
         <thead>
             <tr>
-                <th>Ngày</th>
-                <th>Tổng Tiền</th>
-                <th>Địa Chỉ</th>
-                <th>Số Điện Thoại</th>
-                <th>Tình Trạng</th>
+                <th>Date</th>
+                <th>Total Amount</th>
+                <th>Address</th>
+                <th>Phone Number</th>
+                <th>Status</th>
                 <th></th>
             </tr>
         </thead>
@@ -27,9 +27,9 @@
                     <td>@String.Format("{0:N0}đ", order.Total_Amount)</td>
                     <td>@order.Ship_Address</td>
                     <td>@order.Ship_PhoneNumber</td>
-                    <td>@(order.Status == 1 ? "Đã xác nhận" : "Chưa xác nhận")</td>
+                    <td>@(order.Status == 1 ? "Confirmed" : "Unconfimred")</td>
                     <td>
-                        <a href="@Url.Action("Details", "Order", new { id = order.Order_Id })" class="btn-link">Chi Tiết</a>
+                        <a href="@Url.Action("Details", "Order", new { id = order.Order_Id })" class="btn-link">Detail</a>
                     </td>
                 </tr>
             }
