@@ -3,10 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multiple Charts Example</title>
+    <title>Dashboard with Charts</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
+        .dashboard-container {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .dashboard-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 23%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+        }
+
+        .dashboard-box h4 {
+            margin: 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .dashboard-box .data {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            width: 100%;
+            font-size: 24px;
+            color: #000;
+        }
+
         .chart-container {
             display: flex;
             flex-wrap: wrap;
@@ -15,12 +50,12 @@
         }
 
         .chart-box {
-            width: 48%; /* Biểu đồ cột và biểu đồ đường to hơn */
+            width: 48%;
             margin: 1%;
         }
 
         .chart-box-small {
-            width: 38%; /* Biểu đồ tròn nhỏ hơn */
+            width: 38%;
             margin: 1%;
         }
 
@@ -31,6 +66,25 @@
     </style>
 </head>
 <body>
+    <div class="dashboard-container">
+        <div class="dashboard-box">
+            <h4>Doanh thu hôm nay</h4>
+            <div class="data" id="todayRevenue"></div>
+        </div>
+        <div class="dashboard-box">
+            <h4>Số đơn trong tuần</h4>
+            <div class="data" id="weeklyOrders"></div>
+        </div>
+        <div class="dashboard-box">
+            <h4>Số sản phẩm bán ra trong tuần</h4>
+            <div class="data" id="productsSoldInWeek"></div>
+        </div>
+        <div class="dashboard-box">
+            <h4>Doanh thu theo tháng</h4>
+            <div class="data" id="monthlyRevenue"></div>
+        </div>
+    </div>
+
     <div class="chart-container">
         <div class="chart-box">
             <canvas id="barChart"></canvas>
@@ -47,160 +101,214 @@
     </div>
 
     <script>
-        $(document).ready(function () {
-            $.ajax({
-                url: '@Url.Action("GetChartData", "AdminHome")',
-                method: 'GET',
-                success: function (data) {
-                    // Bar Chart
-                    const barCtx = document.getElementById('barChart').getContext('2d');
-                    const barLabels = data.map(item => item.ProductName);
-                    const barQuantities = data.map(item => item.Quantity);
+    $(document).ready(function () {
+        // Cập nhật doanh thu hôm nay
+        $.ajax({
+            url: '@Url.Action("GetTodayRevenue", "AdminHome")',
+            method: 'GET',
+            success: function (data) {
+                $('#todayRevenue').text(formatCurrency(data));
+            }
+        });
 
-                    new Chart(barCtx, {
-                        type: 'bar',
-                        data: {
-                            labels: barLabels,
-                            datasets: [{
-                                label: '# of Shoes',
-                                data: barQuantities,
-                                borderWidth: 1,
-                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                borderColor: 'rgba(54, 162, 235, 1)'
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
+        // Cập nhật số đơn trong tuần
+        $.ajax({
+            url: '@Url.Action("GetWeeklyOrders", "AdminHome")',
+            method: 'GET',
+            success: function (data) {
+                $('#weeklyOrders').text(data);
+            }
+        });
+
+        // Cập nhật số sản phẩm bán ra trong tuần
+        $.ajax({
+            url: '@Url.Action("GetProductsSoldInWeek", "AdminHome")',
+            method: 'GET',
+            success: function (data) {
+                $('#productsSoldInWeek').text(data);
+            }
+        });
+
+        // Cập nhật doanh thu theo tháng
+        $.ajax({
+            url: '@Url.Action("GetMonthlyRevenue", "AdminHome")',
+            method: 'GET',
+            success: function (data) {
+                $('#monthlyRevenue').text(formatCurrency(data));
+            }
+        });
+
+        // Cập nhật dữ liệu trong các chart
+        $.ajax({
+            url: '@Url.Action("GetChartData", "AdminHome")',
+            method: 'GET',
+            success: function (data) {
+                // Bar Chart
+                const barCtx = document.getElementById('barChart').getContext('2d');
+                const barLabels = data.map(item => item.ProductName);
+                const barQuantities = data.map(item => item.Quantity);
+
+                new Chart(barCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: barLabels,
+                        datasets: [{
+                            label: '# of Shoes',
+                            data: barQuantities,
+                            borderWidth: 1,
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 1)'
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
                             }
                         }
-                    });
+                    }
+                });
 
-                    // Pie Chart
-                    const pieCtx = document.getElementById('pieChart').getContext('2d');
+                // Pie Chart
+                $.ajax({
+                    url: '@Url.Action("GetProductRevenueData", "AdminHome")',
+                    method: 'GET',
+                    success: function (data) {
+                        const pieCtx = document.getElementById('pieChart').getContext('2d');
+                        const pieLabels = data.map(item => item.ProductName);
+                        const pieData = data.map(item => item.Revenue); // Sử dụng Revenue cho Pie Chart
 
-                    new Chart(pieCtx, {
-                        type: 'pie',
-                        data: {
-                            labels: barLabels,
-                            datasets: [{
-                                label: '# of Shoes',
-                                data: barQuantities,
-                                backgroundColor: [
-                                    'rgba(255, 99, 132, 0.2)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                    'rgba(255, 206, 86, 0.2)',
-                                    'rgba(75, 192, 192, 0.2)',
-                                    'rgba(153, 102, 255, 0.2)',
-                                    'rgba(255, 159, 64, 0.2)'
-                                ],
-                                borderColor: [
-                                    'rgba(255, 99, 132, 1)',
-                                    'rgba(54, 162, 235, 1)',
-                                    'rgba(255, 206, 86, 1)',
-                                    'rgba(75, 192, 192, 1)',
-                                    'rgba(153, 102, 255, 1)',
-                                    'rgba(255, 159, 64, 1)'
-                                ],
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                legend: {
-                                    position: 'top',
-                                },
-                                tooltip: {
-                                    callbacks: {
-                                        label: function(tooltipItem) {
-                                            return tooltipItem.label + ': ' + tooltipItem.raw;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    });
-
-                    // Line Chart
-                    $.ajax({
-                        url: '@Url.Action("GetMonthlyRevenueData", "AdminHome")',
-                        method: 'GET',
-                        success: function (data) {
-                            const lineCtx = document.getElementById('lineChart').getContext('2d');
-                            const lineLabels = data.map(item => `${item.Month}/${item.Year}`);
-                            const lineRevenues = data.map(item => item.Revenue);
-
-                            new Chart(lineCtx, {
-                                type: 'line',
-                                data: {
-                                    labels: lineLabels,
-                                    datasets: [{
-                                        label: 'Monthly Revenue',
-                                        data: lineRevenues,
-                                        borderWidth: 1,
-                                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                                        borderColor: 'rgba(75, 192, 192, 1)',
-                                        fill: true
-                                    }]
-                                },
-                                options: {
-                                    scales: {
-                                        y: {
-                                            beginAtZero: true
-                                        }
-                                    }
-                                }
-                            });
-                        },
-                        error: function (error) {
-                            console.log("Error fetching data", error);
-                        }
-                    });
-
-                    // Column Chart
-                        $.ajax({
-                            url: '@Url.Action("GetProductRevenueData", "AdminHome")',
-                            method: 'GET',
-                            success: function (data) {
-                                // Column Chart
-                                const columnCtx = document.getElementById('columnChart').getContext('2d');
-                                const columnLabels = data.map(item => item.ProductName);
-                                const columnRevenues = data.map(item => item.Revenue);
-
-                                new Chart(columnCtx, {
-                                    type: 'bar',
-                                    data: {
-                                        labels: columnLabels,
-                                        datasets: [{
-                                            label: 'Product Revenue',
-                                            data: columnRevenues,
-                                            borderWidth: 1,
-                                            backgroundColor: 'rgba(255, 159, 64, 0.2)',
-                                            borderColor: 'rgba(255, 159, 64, 1)'
-                                        }]
+                        new Chart(pieCtx, {
+                            type: 'pie',
+                            data: {
+                                labels: pieLabels,
+                                datasets: [{
+                                    label: 'Product Revenue',
+                                    data: pieData,
+                                    backgroundColor: [
+                                        'rgba(255, 99, 132, 0.2)',
+                                        'rgba(54, 162, 235, 0.2)',
+                                        'rgba(255, 206, 86, 0.2)',
+                                        'rgba(75, 192, 192, 0.2)',
+                                        'rgba(153, 102, 255, 0.2)',
+                                        'rgba(255, 159, 64, 0.2)'
+                                    ],
+                                    borderColor: [
+                                        'rgba(255, 99, 132, 1)',
+                                        'rgba(54, 162, 235, 1)',
+                                        'rgba(255, 206, 86, 1)',
+                                        'rgba(75, 192, 192, 1)',
+                                        'rgba(153, 102, 255, 1)',
+                                        'rgba(255, 159, 64, 1)'
+                                    ],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        position: 'top',
                                     },
-                                    options: {
-                                        scales: {
-                                            y: {
-                                                beginAtZero: true
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(tooltipItem) {
+                                                return tooltipItem.label + ': ' + formatCurrency(tooltipItem.raw);
                                             }
                                         }
                                     }
-                                });
-                            },
-                            error: function (error) {
-                                console.log("Error fetching data", error);
+                                }
                             }
                         });
-                },
-                error: function (error) {
-                    console.log("Error fetching data", error);
-                }
-            });
+                    },
+                    error: function (error) {
+                        console.log("Error fetching product revenue data", error);
+                    }
+                });
+
+                // Line Chart
+                $.ajax({
+                    url: '@Url.Action("GetMonthlyRevenueData", "AdminHome")',
+                    method: 'GET',
+                    success: function (data) {
+                        const lineCtx = document.getElementById('lineChart').getContext('2d');
+                        const lineLabels = data.map(item => `${item.Month}/${item.Year}`);
+                        const lineRevenues = data.map(item => item.Revenue);
+
+                        new Chart(lineCtx, {
+                            type: 'line',
+                            data: {
+                                labels: lineLabels,
+                                datasets: [{
+                                    label: 'Monthly Revenue',
+                                    data: lineRevenues,
+                                    borderWidth: 1,
+                                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    fill: true
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    },
+                    error: function (error) {
+                        console.log("Error fetching data", error);
+                    }
+                });
+
+                // Column Chart
+                $.ajax({
+                    url: '@Url.Action("GetProductRevenueData", "AdminHome")',
+                    method: 'GET',
+                    success: function (data) {
+                        const columnCtx = document.getElementById('columnChart').getContext('2d');
+                        const columnLabels = data.map(item => item.ProductName);
+                        const columnRevenues = data.map(item => item.Revenue);
+
+                        new Chart(columnCtx, {
+                            type: 'bar',
+                            data: {
+                                labels: columnLabels,
+                                datasets: [{
+                                    label: 'Product Revenue',
+                                    data: columnRevenues,
+                                    borderWidth: 1,
+                                    backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                                    borderColor: 'rgba(255, 159, 64, 1)'
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    },
+                    error: function (error) {
+                        console.log("Error fetching data", error);
+                    }
+                });
+            },
+            error: function (error) {
+                console.log("Error fetching data", error);
+            }
         });
+
+        // Hàm định dạng tiền tệ
+        function formatCurrency(amount) {
+            return amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        }
+    });
     </script>
+
+
 </body>
 </html>
