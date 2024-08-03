@@ -32,7 +32,15 @@ namespace WebBanGiay.Controllers
         [HttpPost]
         public ActionResult AddToCart(Cart model)
         {
+            // Kiểm tra nếu Product không có giá trị Size
+            if (model.Size == null || model.Size == 0)
+            {
+                ModelState.AddModelError("", "Vui lòng chọn kích cỡ cho sản phẩm.");
+                return RedirectToAction("Index"); // Bạn có thể thay đổi để trả về trang hiển thị sản phẩm hoặc trang phù hợp khác.
+            }
+
             var Customer = Session["Customer"] as User;
+
             // Trường hợp người dùng đã đăng nhập
             if (Customer != null)
             {
@@ -76,9 +84,8 @@ namespace WebBanGiay.Controllers
                 }
                 return RedirectToAction("Index");
             }
-
-
         }
+
 
 
 

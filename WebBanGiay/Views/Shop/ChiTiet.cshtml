@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Chi Tiết Sản Phẩm";
+    ViewBag.page = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml"; // Nếu bạn sử dụng layout chung\
     var Customer = (WebBanGiay.Models.User)HttpContext.Current.Session["Customer"];
 
@@ -86,9 +87,7 @@
                                 </div>
                             </div>*@
                         <p>
-                            Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for
-                            something that can make your interior look awesome, and at the same time give you the pleasant warm feeling
-                            during the winter.
+                            @Model.Product_Description
                         </p>
                         <div class="product_count">
                             <label for="qty">Quantity:</label>
@@ -466,9 +465,9 @@
                             {
                                 <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
                                     <div class="single-related-product d-flex">
-                                        <a href="#"><img src="~/Areas/Admin/Data/@item.Product_Image" alt="" style="width: 70px; height: 70px;"></a>
+                                        <a href="/Shop/ChiTiet/@item.Product_Id"><img src="~/Areas/Admin/Data/@item.Product_Image" alt="" style="width: 70px; height: 70px;"></a>
                                         <div class="desc">
-                                            <a href="#" class="title">@item.Product_Name</a>
+                                            <a href="/Shop/ChiTiet/@item.Product_Id" class="title">@item.Product_Name</a>
                                             <div class="price">
                                                 <h6>
                                                     @{

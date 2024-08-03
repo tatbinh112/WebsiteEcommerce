@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c4aad81ecfb441beb58e4ad4fa78b598" Name="Diagram1">
+      <Diagram DiagramId="a1d87291c1f04a1a931ffcceb0b82b11" Name="Diagram1">
         <EntityTypeShape EntityType="vietnamese_administrative_unitsModel.administrative_regions" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="vietnamese_administrative_unitsModel.administrative_units" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
         <EntityTypeShape EntityType="vietnamese_administrative_unitsModel.district" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />

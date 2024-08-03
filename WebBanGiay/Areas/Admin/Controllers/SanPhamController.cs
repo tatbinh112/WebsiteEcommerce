@@ -15,7 +15,7 @@ namespace WebBanGiay.Areas.Admin.Controllers
 {
     public class SanPhamController : Controller
     {
-        string connectionstring = @"Data Source=mssql-179611-0.cloudclusters.net,10088;Initial Catalog=WebBanGiay;User ID=tatbinh;Password=Ab123456";
+        string connectionstring = @"Data Source=mssql-180252-0.cloudclusters.net,10043;Initial Catalog=WebBanGiay;User ID=tatbinh;Password=Ab123456";
         // GET: Admin/SanPham
         [@Authorize(role ="0,1")]
         public ActionResult DanhSach(string filter, int? idCategory, int? idBrand)
