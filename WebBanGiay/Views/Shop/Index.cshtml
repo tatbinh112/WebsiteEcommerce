@@ -316,6 +316,14 @@
     </script>
     <script>
         $(document).ready(function () {
+            var successMessage = '@TempData["SuccessMessage1"]';
+            if (successMessage) {
+                alert(successMessage);
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
             $('.addToCartBtn').click(function () {
                 var productId = $(this).data('product-id');
 

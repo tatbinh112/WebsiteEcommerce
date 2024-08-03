@@ -7,7 +7,15 @@
     var Customer = (WebBanGiay.Models.User)HttpContext.Current.Session["Customer"];
 
 }
-
+@if (TempData["ErrorMessage2"] != null)
+{
+    <div class="container">
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage2"]
+        </div>
+    </div>
+    
+}
 <form action="~/Cart/AddToCart" method="post">
     <div class="product_image_area">
         <div class="container">

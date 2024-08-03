@@ -35,8 +35,8 @@ namespace WebBanGiay.Controllers
             // Kiểm tra nếu Product không có giá trị Size
             if (model.Size == null || model.Size == 0)
             {
-                ModelState.AddModelError("", "Vui lòng chọn kích cỡ cho sản phẩm.");
-                return RedirectToAction("Index"); // Bạn có thể thay đổi để trả về trang hiển thị sản phẩm hoặc trang phù hợp khác.
+                TempData["ErrorMessage2"] = "Please select size for product.";
+                return RedirectToAction("ChiTiet", "Shop", new { id = model.Product_Id }); ; // Bạn có thể thay đổi để trả về trang hiển thị sản phẩm hoặc trang phù hợp khác.
             }
 
             var Customer = Session["Customer"] as User;
@@ -55,7 +55,9 @@ namespace WebBanGiay.Controllers
                     db.Carts.Add(model);
                 }
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                TempData["SuccessMessage1"] = "Product added to cart successfully!";
+                return RedirectToAction("Index", "Shop");
             }
             // Trường hợp người dùng chưa đăng nhập
             else
@@ -82,9 +84,11 @@ namespace WebBanGiay.Controllers
                     }
                     Session["Cart"] = Carts;
                 }
-                return RedirectToAction("Index");
+                TempData["SuccessMessage1"] = "Product added to cart successfully!";
+                return RedirectToAction("Index", "Shop");
             }
         }
+
 
 
 

@@ -191,7 +191,7 @@
             .then(response => response.json())
             .then(data => {
                 if (!data.success) {
-                    alert('Cập nhật số lượng không thành công.');
+                    alert('Updating quantity failed.');
                 }
 
                 // Cập nhật tổng giá trị subtotal
@@ -200,7 +200,7 @@
             .catch(error => console.error('Error:', error));
         }
         function removeFromCart(productId, size) {
-            if (!confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
+            if (!confirm('Are you sure you want to delete this product?')) {
                 return;
             }
 
@@ -225,7 +225,7 @@
                         // Cập nhật subtotal
                         updateSubtotal();
                     } else {
-                        alert('Xóa sản phẩm không thành công.');
+                        alert('Product deletion failed.');
                     }
                 })
                 .catch(error => console.error('Error:', error));
